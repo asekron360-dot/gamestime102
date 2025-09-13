@@ -221,3 +221,106 @@ async function encryptFile(file){
   );
   const wrapKey = await crypto.subtle.deriveKey(
     {name:"HKDF",hash:"SHA-256",salt:new Uint8Array([]),info:new Uint8Array([])},
+    hkdfKey,{name:"AES-KW",length:256},false,["wrapKey"]
+  );
+  const wrappedAes = await crypto.subtle.wrapKey("raw",aesKey,wrapKey,{name:"AES-KW"});
+
+  const payload = {
+    iv:btoa(String.fromCharCode(...iv)),
+    data:btoa(String.fromCharCode(...new Uint8Array(ct))),
+    wrappedKey:btoa(String.fromCharCode(...new Uint8Array(wrappedAes))),
+    pubKey:localStorage.getItem("ecc_pub")
+  };
+  const blob = new Blob([JSON.stringify(payload)],{type:"application/json"});
+  return new File([blob], file.name+".enc", {type:"application/json"});
+}
+
+// ==================== HISTORY (IndexedDB) ====================
+const DB_NAME = "clean_master_history";
+const STORE = "records";
+
+function openDb(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(DB_NAME,1);
+    req.onupgradeneeded=()=>req.result.createObjectStore(STORE,{autoIncrement:true});
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error);
+  });
+}
+async function addRecord(rec){
+  const db=await openDb();
+  const tx=db.transaction(STORE,"readwrite");
+  tx.objectStore(STORE).add(rec);
+  await tx.complete;
+}
+async function loadHistory(){
+  const db=await openDb();
+  const tx=db.transaction(STORE,"readonly");
+  const all=await tx.objectStore(STORE).getAll();
+  await tx.complete;
+  return all;
+}
+function renderHistory(){
+  loadHistory().then(list=>{
+    const tbody=$("#history-table tbody");
+    tbody.innerHTML="";
+    list.forEach(r=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${r.time}</td><td>${r.file}</td><td>${r.status}</td>`;
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+// ==================== MAIN APP LOGIC ====================
+function initApp(){
+  $("#file-input").onchange=()=>{$("#scan-btn").disabled=!$("#file-input").files.length;};
+
+  $("#scan-btn").onclick=async ()=>{
+    const file = $("#file-input").files[0];
+    if(!file) return;
+    const t = LANG[curLang];
+
+    // 1️⃣ AV Scan
+    $("#progress").textContent=t.progressScanning;
+    const arr = new Uint8Array(await file.arrayBuffer());
+    const sig = matchesSignature(arr);
+    if(sig){
+      const status=`${t.statusInfected} (${sig})`;
+      await addRecord({time:now(),file:file.name,status});
+      $("#progress").textContent=`${t.statusInfected}: ${sig}`;
+      renderHistory();
+      return;
+    }
+
+    // 2️⃣ Encrypt
+    $("#progress").textContent=t.progressEncrypting;
+    const encFile = await encryptFile(file);
+
+    // 3️⃣ Upload to Proton Drive
+    $("#progress").textContent=t.progressUploading;
+    const token = getToken();
+    const form = new FormData();
+    form.append("file", encFile);
+    try{
+      const resp = await fetch(`${PROTON_DRIVE_API}/files`,{
+        method:"POST",
+        headers:{Authorization:`Bearer ${token}`},
+        body:form
+      });
+      if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      await addRecord({time:now(),file:file.name,status:t.done});
+      $("#progress").textContent=t.done;
+    }catch(e){
+      const errMsg=`${t.statusError}: ${e.message}`;
+      await addRecord({time:now(),file:file.name,status:errMsg});
+      $("#progress").textContent=errMsg;
+    }
+    renderHistory();
+  };
+
+  renderHistory();
+}
+</script>
+</body>
+</html>
