@@ -33,4 +33,14 @@ export async function encryptFile(file, eccPair) {
     false,
     ["wrapKey"]
   );
-  const wrappedAes = await crypto.subtle.wrapKey("raw", aesKey, wrapKey, { nam
+  const wrappedAes = await crypto.subtle.wrapKey("raw", aesKey, wrapKey, { name: "AES-KW" });
+
+  const payload = {
+    iv: btoa(String.fromCharCode(...iv)),
+    data: btoa(String.fromCharCode(...new Uint8Array(ct))),
+    wrappedKey: btoa(String.fromCharCode(...new Uint8Array(wrappedAes))),
+    pubKey: localStorage.getItem("ecc_pub")
+  };
+  const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+  return new File([blob], `${file.name}.enc`, { type: "application/json" });
+}
