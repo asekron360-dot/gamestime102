@@ -1,1 +1,223 @@
-z
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Clean Master Privacy</title>
+<link rel="icon" href="https://proton.me/favicon.ico">
+<style>
+  body{font-family:Arial,sans-serif;background:#f5f5f5;margin:0;padding:0;}
+  header{background:#0b0d0e;color:#fff;padding:1rem;text-align:center;}
+  main{max-width:900px;margin:auto;padding:1rem;}
+  .card{background:#fff;border-radius:8px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 2px 4px rgba(0,0,0,.1);}
+  button{background:#0068ff;color:#fff;border:none;padding:.6rem 1.2rem;border-radius:4px;cursor:pointer;}
+  button:disabled{opacity:.6;cursor:not-allowed;}
+  input[type=file]{margin-top:.5rem;}
+  table{width:100%;border-collapse:collapse;margin-top:.5rem;}
+  th,td{padding:.5rem;border-bottom:1px solid #ddd;text-align:left;}
+  .log{font-size:.85rem;color:#555;white-space:pre-wrap;background:#eee;padding:.5rem;border-radius:4px;}
+  #lang-select{position:absolute;top:1rem;right:1rem;}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">Clean Master Privacy</h1>
+  <select id="lang-select">
+    <option value="tr">🇹🇷 Türkçe</option>
+    <option value="en">🇬🇧 English</option>
+  </select>
+</header>
+
+<main>
+
+<div class="card" id="login-card">
+  <h2 id="login-title">🔐 Proton Mail ile Giriş Yap</h2>
+  <p id="login-desc">Uygulamayı kullanabilmek için Proton Mail hesabınızla kimlik doğrulaması yapmanız gerekir.</p>
+  <button id="login-btn">Proton Mail ile Giriş</button>
+</div>
+
+<div class="card" id="app-card" style="display:none;">
+  <h2 id="app-title">📂 Dosya Yükle & Tarama</h2>
+  <input type="file" id="file-input" accept="*/*"><br>
+  <button id="scan-btn" disabled>🛡️ Dosyayı Tara & Yükle</button>
+  <div id="progress" style="margin-top:1rem;"></div>
+  <h3 id="history-title">Geçmiş İşlemler</h3>
+  <table id="history-table">
+    <thead><tr><th id="th-time">Zaman</th><th id="th-file">Dosya</th><th id="th-status">Durum</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+</main>
+
+<script>
+// ==================== CONFIG ====================
+const LANG = {
+  tr:{
+    title:"Clean Master Privacy",
+    loginTitle:"🔐 Proton Mail ile Giriş Yap",
+    loginDesc:"Uygulamayı kullanabilmek için Proton Mail hesabınızla kimlik doğrulaması yapmanız gerekir.",
+    loginBtn:"Proton Mail ile Giriş",
+    appTitle:"📂 Dosya Yükle & Tarama",
+    scanBtn:"🛡️ Dosyayı Tara & Yükle",
+    history:"Geçmiş İşlemler",
+    thTime:"Zaman",
+    thFile:"Dosya",
+    thStatus:"Durum",
+    statusClean:"Temiz",
+    statusInfected:"Zararlı",
+    statusError:"Hata",
+    progressScanning:"Tarama yapılıyor…",
+    progressEncrypting:"Şifreleniyor…",
+    progressUploading:"Proton Drive’a yükleniyor…",
+    done:"Tamamlandı"
+  },
+  en:{
+    title:"Clean Master Privacy",
+    loginTitle:"🔐 Sign In with Proton Mail",
+    loginDesc:"You must authenticate with your Proton Mail account to use the app.",
+    loginBtn:"Sign in with Proton Mail",
+    appTitle:"📂 Upload & Scan File",
+    scanBtn:"🛡️ Scan & Upload",
+    history:"History",
+    thTime:"Time",
+    thFile:"File",
+    thStatus:"Status",
+    statusClean:"Clean",
+    statusInfected:"Infected",
+    statusError:"Error",
+    progressScanning:"Scanning…",
+    progressEncrypting:"Encrypting…",
+    progressUploading:"Uploading to Proton Drive…",
+    done:"Done"
+  }
+};
+
+const PROTON_CLIENT_ID   = "YOUR_PROTON_CLIENT_ID"; // ← buraya kendi client‑ID’nizi koyun
+const REDIRECT_URI      = location.origin + location.pathname;
+const PROTON_OAUTH_URL  = "https://account.proton.me/oauth/v4/authorize";
+const PROTON_DRIVE_API  = "https://drive.proton.me/api/v2";
+const SCAN_SIGNATURES   = [
+  {hex:"4D5A",desc:"Windows EXE"},
+  {hex:"504B0304",desc:"ZIP/Office"}
+];
+
+// ==================== STATE ====================
+let curLang = "tr";
+let eccKeyPair = null;
+
+// ==================== UI HELPERS ====================
+function $(sel){return document.querySelector(sel);}
+function setText(id,text){$(id).textContent=text;}
+function applyLang(){
+  const t = LANG[curLang];
+  setText("#title",t.title);
+  setText("#login-title",t.loginTitle);
+  setText("#login-desc",t.loginDesc);
+  setText("#login-btn",t.loginBtn);
+  setText("#app-title",t.appTitle);
+  setText("#scan-btn",t.scanBtn);
+  setText("#history-title",t.history);
+  setText("#th-time",t.thTime);
+  setText("#th-file",t.thFile);
+  setText("#th-status",t.thStatus);
+}
+$("#lang-select").addEventListener("change",e=>{
+  curLang=e.target.value;
+  applyLang();
+});
+applyLang();
+
+// ==================== OAUTH ====================
+function buildAuthUrl(){
+  const params = new URLSearchParams({
+    client_id: PROTON_CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    response_type: "token",
+    scope: "openid email drive",
+    state: Math.random().toString(36).substring(2)
+  });
+  return `${PROTON_OAUTH_URL}?${params}`;
+}
+function parseHash(){
+  const hash = location.hash.substring(1);
+  const data = Object.fromEntries(new URLSearchParams(hash));
+  return data.access_token;
+}
+function saveToken(t){localStorage.setItem("proton_access_token",t);}
+function getToken(){return localStorage.getItem("proton_access_token");}
+function clearToken(){localStorage.removeItem("proton_access_token");}
+
+// -------------------- Login Flow --------------------
+$("#login-btn").onclick = ()=>{
+  location.href = buildAuthUrl();
+};
+window.addEventListener("load",()=>{
+  const token = parseHash();
+  if(token){
+    saveToken(token);
+    location.hash="";
+  }
+  if(getToken()){
+    $("#login-card").style.display="none";
+    $("#app-card").style.display="block";
+    initApp();
+  }
+});
+
+// ==================== ECC / Crypto ====================
+async function generateECC(){
+  eccKeyPair = await crypto.subtle.generateKey(
+    {name:"ECDH",namedCurve:"P-256"},
+    true,
+    ["deriveKey"]
+  );
+  const spki = await crypto.subtle.exportKey("spki",eccKeyPair.publicKey);
+  localStorage.setItem("ecc_pub",btoa(String.fromCharCode(...new Uint8Array(spki))));
+}
+async function loadECC(){
+  // For demo we always generate a fresh pair per session.
+  await generateECC();
+}
+await loadECC();
+
+// -------------------- Simple AV --------------------
+function hexToBytes(hex){
+  const bytes=[];
+  for(let i=0;i<hex.length;i+=2) bytes.push(parseInt(hex.substr(i,2),16));
+  return new Uint8Array(bytes);
+}
+function matchesSignature(buf){
+  for(const s of SCAN_SIGNATURES){
+    const sig = hexToBytes(s.hex);
+    let match=true;
+    for(let i=0;i<sig.length;i++){
+      if(buf[i]!==sig[i]){match=false;break;}
+    }
+    if(match) return s.desc;
+  }
+  return null;
+}
+
+// ==================== ENCRYPTION ====================
+async function encryptFile(file){
+  const buf = await file.arrayBuffer();
+
+  // AES‑GCM
+  const aesKey = await crypto.subtle.generateKey({name:"AES-GCM",length:256},true,["encrypt"]);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({name:"AES-GCM",iv},aesKey,buf);
+
+  // Export AES key
+  const rawAes = await crypto.subtle.exportKey("raw",aesKey);
+
+  // Derive wrapping key from ECC shared secret (ECIES‑like)
+  const shared = await crypto.subtle.deriveBits(
+    {name:"ECDH",public:eccKeyPair.publicKey},
+    eccKeyPair.privateKey,
+    256
+  );
+  const hkdfKey = await crypto.subtle.importKey(
+    "raw",shared,{name:"HKDF"},false,["deriveKey"]
+  );
+  const wrapKey = await crypto.subtle.deriveKey(
+    {name:"HKDF",hash:"SHA-256",salt:new Uint8Array([]),info:new Uint8Array([])},
