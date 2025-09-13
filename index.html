@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com; img-src 'self' data:;">
+    <meta name="description" content="Clean Master Privacy - Gelişmiş Eliptik Eğri Şifrelemeli Web Tabanlı Antivirüs Çözümü">
+    <meta name="author" content="gamestime102">
     <title>Clean Master Privacy - Gelişmiş Web Antivirüs Çözümü</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/elliptic/6.5.4/elliptic.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" media="print" onload="this.media='all'" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
     <style>
         :root {
             --primary-color: #6c5ce7;
@@ -21,7 +21,18 @@
             --danger-color: #ff7675;
             --info-color: #74b9ff;
         }
-        
+
+        [data-theme="dark"] {
+            --primary-color: #a29bfe;
+            --secondary-color: #6c5ce7;
+            --dark-color: #dfe6e9;
+            --light-color: #2d3436;
+            --success-color: #55efc4;
+            --warning-color: #ffeaa7;
+            --danger-color: #ff7675;
+            --info-color: #81ecec;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -29,18 +40,18 @@
             min-height: 100vh;
             padding-top: 56px;
         }
-        
+
         .navbar {
             background: rgba(45, 52, 54, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
         }
-        
+
         .main-container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
@@ -49,14 +60,14 @@
             overflow: hidden;
             margin-bottom: 2rem;
         }
-        
+
         .app-header {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             color: white;
             padding: 2rem;
             text-align: center;
         }
-        
+
         .feature-card {
             border: none;
             border-radius: 10px;
@@ -64,18 +75,18 @@
             height: 100%;
             margin-bottom: 1.5rem;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .feature-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--primary-color);
         }
-        
+
         .scan-animation {
             width: 100%;
             height: 4px;
@@ -85,12 +96,12 @@
             border-radius: 2px;
             margin: 10px 0;
         }
-        
+
         @keyframes scan {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-        
+
         .btn-primary {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             border: none;
@@ -98,13 +109,13 @@
             padding: 10px 25px;
             font-weight: 600;
         }
-        
+
         .btn-primary:hover {
             background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .stat-card {
             background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             color: white;
@@ -113,12 +124,12 @@
             text-align: center;
             margin-bottom: 1rem;
         }
-        
+
         .progress {
             height: 8px;
             border-radius: 4px;
         }
-        
+
         .file-input-area {
             border: 2px dashed #ccc;
             border-radius: 10px;
@@ -127,19 +138,19 @@
             transition: all 0.3s;
             cursor: pointer;
         }
-        
-        .file-input-area:hover {
+
+        .file-input-area:hover, .file-input-area.dragover {
             border-color: var(--primary-color);
             background-color: rgba(108, 92, 231, 0.05);
         }
-        
+
         .footer {
             background-color: rgba(45, 52, 54, 0.9);
             color: white;
             padding: 1.5rem 0;
             margin-top: 2rem;
         }
-        
+
         .encryption-badge {
             display: inline-block;
             background: linear-gradient(to right, #00b894, #00cec9);
@@ -149,16 +160,16 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
-        
+
         .page-section {
             display: none;
             padding: 20px;
         }
-        
+
         .page-section.active {
             display: block;
         }
-        
+
         .nav-tabs .nav-link {
             border: none;
             border-bottom: 3px solid transparent;
@@ -166,24 +177,30 @@
             font-weight: 500;
             padding: 0.8rem 1.5rem;
         }
-        
+
         .nav-tabs .nav-link.active {
             border-bottom: 3px solid var(--primary-color);
             color: var(--primary-color);
             background: transparent;
         }
-        
-        .language-selector {
+
+        .toast-container {
             position: fixed;
-            bottom: 20px;
+            top: 80px;
             right: 20px;
-            z-index: 1000;
+            z-index: 1060;
         }
-        
-        .dropdown-menu {
-            min-width: auto;
+
+        .toast {
+            min-width: 300px;
+            animation: slideIn 0.5s ease-in-out;
         }
-        
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
         .cookie-consent {
             position: fixed;
             bottom: 0;
@@ -195,7 +212,7 @@
             z-index: 1050;
             display: none;
         }
-        
+
         .privacy-policy {
             max-height: 400px;
             overflow-y: auto;
@@ -204,92 +221,75 @@
             border-radius: 8px;
             margin-top: 15px;
         }
-        
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 border-radius: 0;
             }
-            
+
             .app-header h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
-            
-            .feature-card {
-                margin-bottom: 1.5rem;
-            }
-            
+
             .nav-tabs .nav-link {
                 padding: 0.5rem;
                 font-size: 0.9rem;
             }
-        }
-        
-        .notification {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 1060;
-            min-width: 300px;
-            display: none;
-        }
-        
-        .history-item {
-            border-left: 4px solid var(--primary-color);
-            padding-left: 15px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-        
-        .history-item:hover {
-            background-color: #f8f9fa;
-            transform: translateX(5px);
-        }
-        
-        .settings-panel {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+
+            .btn {
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" aria-label="Main navigation">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-shield-alt me-2"></i>Clean Master Privacy
+                <i class="fas fa-shield-alt me-2" aria-hidden="true"></i>Clean Master Privacy
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menüyü aç/kapat">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" data-page="home"><i class="fas fa-home me-1"></i> <span data-translate="home">Ana Sayfa</span></a>
+                        <a class="nav-link active" href="#" data-page="home" aria-current="page"><i class="fas fa-home me-1" aria-hidden="true"></i> <span data-translate="home">Ana Sayfa</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="scan"><i class="fas fa-search me-1"></i> <span data-translate="scan">Tarama</span></a>
+                        <a class="nav-link" href="#" data-page="scan"><i class="fas fa-search me-1" aria-hidden="true"></i> <span data-translate="scan">Tarama</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="history"><i class="fas fa-history me-1"></i> <span data-translate="history">Geçmiş</span></a>
+                        <a class="nav-link" href="#" data-page="history"><i class="fas fa-history me-1" aria-hidden="true"></i> <span data-translate="history">Geçmiş</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="settings"><i class="fas fa-cog me-1"></i> <span data-translate="settings">Ayarlar</span></a>
+                        <a class="nav-link" href="#" data-page="settings"><i class="fas fa-cog me-1" aria-hidden="true"></i> <span data-translate="settings">Ayarlar</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="privacy"><i class="fas fa-shield-alt me-1"></i> <span data-translate="privacy">Gizlilik</span></a>
+                        <a class="nav-link" href="#" data-page="privacy"><i class="fas fa-shield-alt me-1" aria-hidden="true"></i> <span data-translate="privacy">Gizlilik</span></a>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button class="btn btn-outline-light btn-sm me-2" id="themeToggle">
+                    <button class="btn btn-outline-light btn-sm me-2" id="themeToggle" aria-label="Temayı değiştir">
                         <i class="fas fa-moon"></i>
                     </button>
                     <div class="dropdown">
-                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown">
-                            <i class="fas fa-globe me-1"></i> <span id="currentLanguage">Türkçe</span>
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe me-1" aria-hidden="true"></i> <span id="currentLanguage">Türkçe</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                             <li><a class="dropdown-item language-option" href="#" data-lang="tr">Türkçe</a></li>
                             <li><a class="dropdown-item language-option" href="#" data-lang="en">English</a></li>
                             <li><a class="dropdown-item language-option" href="#" data-lang="de">Deutsch</a></li>
@@ -300,10 +300,15 @@
         </div>
     </nav>
 
-    <!-- Notification Area -->
-    <div class="notification alert alert-success alert-dismissible fade show" role="alert">
-        <span id="notificationText"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <!-- Toast Notification -->
+    <div class="toast-container">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="notificationToast">
+            <div class="toast-header">
+                <strong class="me-auto" data-translate="notification">Bildirim</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Bildirimi kapat"></button>
+            </div>
+            <div class="toast-body" id="notificationText"></div>
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -311,11 +316,10 @@
         <!-- Home Page -->
         <div class="page-section active" id="home-page">
             <div class="main-container">
-                <!-- App Header -->
                 <div class="app-header">
-                    <h1><i class="fas fa-shield-virus me-2"></i>Clean Master Privacy</h1>
+                    <h1><i class="fas fa-shield-virus me-2" aria-hidden="true"></i>Clean Master Privacy</h1>
                     <p class="lead" data-translate="appDescription">Gelişmiş Eliptik Eğri Şifrelemeli Web Tabanlı Antivirüs Çözümü</p>
-                    <span class="encryption-badge"><i class="fas fa-lock me-1"></i>ECC-256 Şifreleme Aktif</span>
+                    <span class="encryption-badge"><i class="fas fa-lock me-1" aria-hidden="true"></i>ECC-256 Şifreleme Aktif</span>
                 </div>
 
                 <div class="row p-4">
@@ -324,62 +328,59 @@
                         <!-- Proton Mail Login -->
                         <div class="card mb-4 feature-card">
                             <div class="card-body">
-                                <h4 class="card-title"><i class="fas fa-envelope me-2"></i> <span data-translate="protonLogin">Proton Mail Girişi</span></h4>
+                                <h4 class="card-title"><i class="fas fa-envelope me-2" aria-hidden="true"></i> <span data-translate="protonLogin">Proton Mail Girişi</span></h4>
                                 <p class="card-text" data-translate="protonLoginDesc">Clean Master Privacy hizmetini kullanmak için Proton Mail hesabınızla giriş yapın.</p>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <input type="email" class="form-control" id="protonEmail" placeholder="Proton Mail adresiniz" data-translate-placeholder="protonEmailPlaceholder">
+                                <form id="loginForm" novalidate>
+                                    <input type="hidden" name="_csrf" value="generate-csrf-token">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="protonEmail" class="form-label sr-only">Proton Mail adresiniz</label>
+                                            <input type="email" class="form-control" id="protonEmail" placeholder="Proton Mail adresiniz" data-translate-placeholder="protonEmailPlaceholder" required aria-describedby="emailFeedback">
+                                            <div id="emailFeedback" class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="protonPassword" class="form-label sr-only">Şifreniz</label>
+                                            <input type="password" class="form-control" id="protonPassword" placeholder="Şifreniz" data-translate-placeholder="passwordPlaceholder" required aria-describedby="passwordFeedback">
+                                            <div id="passwordFeedback" class="invalid-feedback"></div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input type="password" class="form-control" id="protonPassword" placeholder="Şifreniz" data-translate-placeholder="passwordPlaceholder">
+                                    <button class="btn btn-primary w-100" id="loginBtn" type="submit" aria-label="Giriş yap">
+                                        <i class="fas fa-sign-in-alt me-2" aria-hidden="true"></i><span data-translate="login">Giriş Yap</span>
+                                    </button>
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" id="rememberLogin" aria-label="Beni hatırla">
+                                        <label class="form-check-label" for="rememberLogin" data-translate="rememberMe">Beni hatırla</label>
                                     </div>
-                                </div>
-                                
-                                <button class="btn btn-primary w-100" id="loginBtn">
-                                    <i class="fas fa-sign-in-alt me-2"></i><span data-translate="login">Giriş Yap</span>
-                                </button>
-                                
-                                <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" id="rememberLogin">
-                                    <label class="form-check-label" for="rememberLogin" data-translate="rememberMe">
-                                        Beni hatırla
-                                    </label>
-                                </div>
+                                </form>
                             </div>
                         </div>
 
                         <!-- File Upload & Scan -->
                         <div class="card mb-4 feature-card">
                             <div class="card-body">
-                                <h4 class="card-title"><i class="fas fa-file-upload me-2"></i> <span data-translate="fileScan">Dosya Tarama</span></h4>
+                                <h4 class="card-title"><i class="fas fa-file-upload me-2" aria-hidden="true"></i> <span data-translate="fileScan">Dosya Tarama</span></h4>
                                 <p class="card-text" data-translate="fileScanDesc">Şüpheli dosyaları yükleyin ve anında tarama yapın.</p>
-                                
-                                <div class="file-input-area mb-4" id="dropZone">
-                                    <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-secondary"></i>
+                                <div class="file-input-area mb-4" id="dropZone" role="region" aria-label="Dosya yükleme alanı">
+                                    <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-secondary" aria-hidden="true"></i>
                                     <h5 data-translate="dragDrop">Dosyaları sürükleyip bırakın veya tıklayarak seçin</h5>
                                     <p class="text-muted" data-translate="maxFileSize">Maksimum dosya boyutu: 50MB</p>
-                                    <input type="file" class="d-none" id="fileInput" multiple>
+                                    <input type="file" class="d-none" id="fileInput" multiple accept=".pdf,.docx,.txt,.jpg,.png" aria-describedby="fileInputFeedback">
                                     <button class="btn btn-outline-primary mt-2" id="browseBtn" data-translate="browseFiles">Dosya Seç</button>
+                                    <div id="fileInputFeedback" class="invalid-feedback"></div>
                                 </div>
-                                
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 data-translate="selectedFiles">Seçilen Dosyalar</h5>
                                     <span class="badge bg-primary" id="fileCount">0 dosya</span>
                                 </div>
-                                
                                 <div id="fileList" class="mb-4">
                                     <p class="text-center text-muted" data-translate="noFilesSelected">Henüz dosya seçilmedi</p>
                                 </div>
-                                
-                                <button class="btn btn-primary w-100" id="scanBtn" disabled>
-                                    <i class="fas fa-search me-2"></i><span data-translate="startScan">Tarama Başlat</span>
+                                <button class="btn btn-primary w-100" id="scanBtn" disabled aria-label="Tarama başlat">
+                                    <i class="fas fa-search me-2" aria-hidden="true"></i><span data-translate="startScan">Tarama Başlat</span>
                                 </button>
-                                
-                                <div class="scan-animation d-none" id="scanAnimation"></div>
-                                
-                                <div class="progress mt-3 d-none" id="scanProgress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                <div class="scan-animation d-none" id="scanAnimation" aria-hidden="true"></div>
+                                <div class="progress mt-3 d-none" id="scanProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%"></div>
                                 </div>
                             </div>
                         </div>
@@ -390,36 +391,31 @@
                         <!-- Stats -->
                         <div class="card mb-4 feature-card">
                             <div class="card-body">
-                                <h4 class="card-title"><i class="fas fa-chart-line me-2"></i> <span data-translate="statistics">İstatistikler</span></h4>
-                                
+                                <h4 class="card-title"><i class="fas fa-chart-line me-2" aria-hidden="true"></i> <span data-translate="statistics">İstatistikler</span></h4>
                                 <div class="stat-card mb-3">
-                                    <h5><i class="fas fa-shield-alt me-2"></i> <span data-translate="protectionStatus">Koruma Durumu</span></h5>
+                                    <h5><i class="fas fa-shield-alt me-2" aria-hidden="true"></i> <span data-translate="protectionStatus">Koruma Durumu</span></h5>
                                     <h2 data-translate="active">Aktif</h2>
                                 </div>
-                                
                                 <div class="d-flex justify-content-between mb-2">
                                     <span data-translate="lastScan">Son Tarama:</span>
                                     <span id="lastScan" data-translate="never">Henüz yok</span>
                                 </div>
-                                
                                 <div class="d-flex justify-content-between mb-2">
                                     <span data-translate="totalScanned">Taranan Dosya:</span>
                                     <span id="totalScanned">0</span>
                                 </div>
-                                
                                 <div class="d-flex justify-content-between mb-3">
                                     <span data-translate="threatsDetected">Tespit Edilen Tehdit:</span>
                                     <span id="threatsDetected">0</span>
                                 </div>
-                                
-                                <canvas id="threatChart" height="150"></canvas>
+                                <canvas id="threatChart" height="150" aria-label="Tehdit istatistikleri grafiği"></canvas>
                             </div>
                         </div>
 
                         <!-- Results -->
                         <div class="card mb-4 feature-card">
                             <div class="card-body">
-                                <h4 class="card-title"><i class="fas fa-list-check me-2"></i> <span data-translate="scanResults">Tarama Sonuçları</span></h4>
+                                <h4 class="card-title"><i class="fas fa-list-check me-2" aria-hidden="true"></i> <span data-translate="scanResults">Tarama Sonuçları</span></h4>
                                 <div id="scanResults">
                                     <p class="text-center text-muted" data-translate="noScanResults">Tarama yapılmadı</p>
                                 </div>
@@ -427,47 +423,44 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Features Section -->
-            <div class="row mt-5">
-                <div class="col-12 text-center mb-4">
-                    <h2><i class="fas fa-star me-2"></i> <span data-translate="features">Clean Master Privacy Özellikleri</span></h2>
-                    <p class="lead" data-translate="featuresDesc">Gelişmiş güvenlik çözümümüzün avantajları</p>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card feature-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
-                                <i class="fas fa-lock"></i>
+                <!-- Features Section -->
+                <div class="row mt-5">
+                    <div class="col-12 text-center mb-4">
+                        <h2><i class="fas fa-star me-2" aria-hidden="true"></i> <span data-translate="features">Clean Master Privacy Özellikleri</span></h2>
+                        <p class="lead" data-translate="featuresDesc">Gelişmiş güvenlik çözümümüzün avantajları</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <div class="feature-icon">
+                                    <i class="fas fa-lock" aria-hidden="true"></i>
+                                </div>
+                                <h4 data-translate="feature1Title">Eliptik Eğri Şifreleme</h4>
+                                <p data-translate="feature1Desc">Tüm tarama verileriniz ECC-256 bit şifreleme ile korunur, maksimum gizlilik sağlanır.</p>
                             </div>
-                            <h4 data-translate="feature1Title">Eliptik Eğri Şifreleme</h4>
-                            <p data-translate="feature1Desc">Tüm tarama verileriniz ECC-256 bit şifreleme ile korunur, maksimum gizlilik sağlanır.</p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card feature-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
-                                <i class="fas fa-bolt"></i>
+                    <div class="col-md-4 mb-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <div class="feature-icon">
+                                    <i class="fas fa-bolt" aria-hidden="true"></i>
+                                </div>
+                                <h4 data-translate="feature2Title">Hızlı Tarama</h4>
+                                <p data-translate="feature2Desc">Gelişmiş algoritmalarımız sayesinde dosyalarınızı saniyeler içinde tarayın.</p>
                             </div>
-                            <h4 data-translate="feature2Title">Hızlı Tarama</h4>
-                            <p data-translate="feature2Desc">Gelişmiş algoritmalarımız sayesinde dosyalarınızı saniyeler içinde tarayın.</p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card feature-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
-                                <i class="fas fa-cloud-upload-alt"></i>
+                    <div class="col-md-4 mb-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <div class="feature-icon">
+                                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                </div>
+                                <h4 data-translate="feature3Title">Proton Drive Entegrasyonu</h4>
+                                <p data-translate="feature3Desc">Tarama raporlarınız otomatik olarak şifrelenmiş şekilde Proton Drive'a yüklenir.</p>
                             </div>
-                            <h4 data-translate="feature3Title">Proton Drive Entegrasyonu</h4>
-                            <p data-translate="feature3Desc">Tarama raporlarınız otomatik olarak şifrelenmiş şekilde Proton Drive'a yüklenir.</p>
                         </div>
                     </div>
                 </div>
@@ -478,18 +471,16 @@
         <div class="page-section" id="history-page">
             <div class="main-container">
                 <div class="app-header">
-                    <h1><i class="fas fa-history me-2"></i> <span data-translate="scanHistory">Tarama Geçmişi</span></h1>
+                    <h1><i class="fas fa-history me-2" aria-hidden="true"></i> <span data-translate="scanHistory">Tarama Geçmişi</span></h1>
                     <p class="lead" data-translate="scanHistoryDesc">Geçmiş tarama sonuçlarınızı görüntüleyin</p>
                 </div>
-                
                 <div class="p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 data-translate="recentScans">Son Taramalar</h4>
-                        <button class="btn btn-outline-danger btn-sm" id="clearHistoryBtn" data-translate="clearHistory">
+                        <button class="btn btn-outline-danger btn-sm" id="clearHistoryBtn" data-translate="clearHistory" aria-label="Tarama geçmişini temizle">
                             Geçmişi Temizle
                         </button>
                     </div>
-                    
                     <div id="historyList">
                         <p class="text-center text-muted" data-translate="noHistory">Henüz tarama geçmişi bulunmamaktadır</p>
                     </div>
@@ -501,83 +492,77 @@
         <div class="page-section" id="settings-page">
             <div class="main-container">
                 <div class="app-header">
-                    <h1><i class="fas fa-cog me-2"></i> <span data-translate="settings">Ayarlar</span></h1>
+                    <h1><i class="fas fa-cog me-2" aria-hidden="true"></i> <span data-translate="settings">Ayarlar</span></h1>
                     <p class="lead" data-translate="settingsDesc">Uygulama ayarlarınızı yönetin</p>
                 </div>
-                
                 <div class="p-4">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="settings-panel">
-                                <h4 class="mb-4"><i class="fas fa-sliders-h me-2"></i> <span data-translate="generalSettings">Genel Ayarlar</span></h4>
-                                
+                                <h4 class="mb-4"><i class="fas fa-sliders-h me-2" aria-hidden="true"></i> <span data-translate="generalSettings">Genel Ayarlar</span></h4>
                                 <div class="mb-3">
                                     <label class="form-label" data-translate="autoScan">Otomatik Tarama</label>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="autoScanSwitch">
+                                        <input class="form-check-input" type="checkbox" id="autoScanSwitch" aria-label="Otomatik taramayı etkinleştir">
                                         <label class="form-check-label" for="autoScanSwitch" data-translate="enableAutoScan">Otomatik taramayı etkinleştir</label>
                                     </div>
                                 </div>
-                                
                                 <div class="mb-3">
-                                    <label class="form-label" data-translate="scanSensitivity">Tarama Hassasiyeti</label>
-                                    <select class="form-select" id="sensitivitySelect">
+                                    <label for="sensitivitySelect" class="form-label" data-translate="scanSensitivity">Tarama Hassasiyeti</label>
+                                    <select class="form-select" id="sensitivitySelect" aria-describedby="sensitivityFeedback">
                                         <option value="low" data-translate="sensitivityLow">Düşük</option>
                                         <option value="medium" selected data-translate="sensitivityMedium">Orta</option>
                                         <option value="high" data-translate="sensitivityHigh">Yüksek</option>
                                     </select>
+                                    <div id="sensitivityFeedback" class="form-text"></div>
                                 </div>
-                                
                                 <div class="mb-3">
-                                    <label class="form-label" data-translate="resultRetention">Sonuç Saklama Süresi</label>
-                                    <select class="form-select" id="retentionSelect">
+                                    <label for="retentionSelect" class="form-label" data-translate="resultRetention">Sonuç Saklama Süresi</label>
+                                    <select class="form-select" id="retentionSelect" aria-describedby="retentionFeedback">
                                         <option value="7" data-translate="retention7">7 Gün</option>
                                         <option value="30" selected data-translate="retention30">30 Gün</option>
                                         <option value="90" data-translate="retention90">90 Gün</option>
                                         <option value="365" data-translate="retention365">1 Yıl</option>
                                     </select>
+                                    <div id="retentionFeedback" class="form-text"></div>
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="col-md-6">
                             <div class="settings-panel">
-                                <h4 class="mb-4"><i class="fas fa-shield-alt me-2"></i> <span data-translate="privacySettings">Gizlilik Ayarları</span></h4>
-                                
+                                <h4 class="mb-4"><i class="fas fa-shield-alt me-2" aria-hidden="true"></i> <span data-translate="privacySettings">Gizlilik Ayarları</span></h4>
                                 <div class="mb-3">
                                     <label class="form-label" data-translate="dataCollection">Veri Toplama</label>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="dataCollectionSwitch" checked>
+                                        <input class="form-check-input" type="checkbox" id="dataCollectionSwitch" checked aria-label="Anonim veri toplamaya izin ver">
                                         <label class="form-check-label" for="dataCollectionSwitch" data-translate="allowDataCollection">Anonim kullanım verileri toplamaya izin ver</label>
                                     </div>
                                     <div class="form-text" data-translate="dataCollectionDesc">Bu veriler uygulamanın iyileştirilmesi için kullanılır ve kişisel bilgi içermez</div>
                                 </div>
-                                
                                 <div class="mb-3">
                                     <label class="form-label" data-translate="autoUpload">Otomatik Yükleme</label>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="autoUploadSwitch" checked>
+                                        <input class="form-check-input" type="checkbox" id="autoUploadSwitch" checked aria-label="Otomatik yüklemeyi etkinleştir">
                                         <label class="form-check-label" for="autoUploadSwitch" data-translate="enableAutoUpload">Tarama sonuçlarını Proton Drive'a otomatik yükle</label>
                                     </div>
                                 </div>
-                                
                                 <div class="mb-3">
-                                    <label class="form-label" data-translate="encryptionLevel">Şifreleme Seviyesi</label>
-                                    <select class="form-select" id="encryptionSelect">
+                                    <label for="encryptionSelect" class="form-label" data-translate="encryptionLevel">Şifreleme Seviyesi</label>
+                                    <select class="form-select" id="encryptionSelect" aria-describedby="encryptionFeedback">
                                         <option value="ecc-256" selected>ECC-256 bit</option>
                                         <option value="ecc-384">ECC-384 bit</option>
                                         <option value="ecc-521">ECC-521 bit</option>
                                     </select>
+                                    <div id="encryptionFeedback" class="form-text"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="text-center mt-4">
-                        <button class="btn btn-primary me-2" id="saveSettingsBtn" data-translate="saveSettings">
+                        <button class="btn btn-primary me-2" id="saveSettingsBtn" data-translate="saveSettings" aria-label="Ayarları kaydet">
                             Ayarları Kaydet
                         </button>
-                        <button class="btn btn-outline-secondary" id="resetSettingsBtn" data-translate="resetSettings">
+                        <button class="btn btn-outline-secondary" id="resetSettingsBtn" data-translate="resetSettings" aria-label="Ayarları sıfırla">
                             Varsayılanlara Sıfırla
                         </button>
                     </div>
@@ -589,15 +574,13 @@
         <div class="page-section" id="privacy-page">
             <div class="main-container">
                 <div class="app-header">
-                    <h1><i class="fas fa-shield-alt me-2"></i> <span data-translate="privacyPolicy">Gizlilik Politikası</span></h1>
+                    <h1><i class="fas fa-shield-alt me-2" aria-hidden="true"></i> <span data-translate="privacyPolicy">Gizlilik Politikası</span></h1>
                     <p class="lead" data-translate="privacyPolicyDesc">Veri gizliliği ve güvenliği taahhüdümüz</p>
                 </div>
-                
                 <div class="p-4">
-                    <div class="privacy-policy">
+                    <div class="privacy-policy" role="region" aria-label="Gizlilik politikası içeriği">
                         <h4 data-translate="privacyIntroduction">1. Giriş</h4>
                         <p data-translate="privacyIntroductionText">Clean Master Privacy ("biz", "bizim" veya "uygulamamız") olarak, kullanıcılarımızın gizliliğine büyük önem veriyoruz. Bu Gizlilik Politikası, kişisel verilerinizi nasıl topladığımız, kullandığımız, paylaştığımız ve koruduğumuzu açıklamaktadır. Bu politikayı okumanızı ve verilerinizle ilgili uygulamalarımızı anlamanızı önemle tavsiye ederiz.</p>
-                        
                         <h4 data-translate="dataCollection">2. Veri Toplama</h4>
                         <p data-translate="dataCollectionText">Clean Master Privacy, hizmetlerimizi sağlamak ve iyileştirmek için aşağıdaki verileri toplar:</p>
                         <ul>
@@ -606,7 +589,6 @@
                             <li data-translate="dataCollectionItem3">Proton Mail hesap bilgileriniz (yalnızca kimlik doğrulama için kullanılır, saklanmaz)</li>
                             <li data-translate="dataCollectionItem4">Kullanım verileri (tarayıcı türü, IP adresi, erişim zamanları gibi anonim bilgiler)</li>
                         </ul>
-                        
                         <h4 data-translate="dataUsage">3. Veri Kullanımı</h4>
                         <p data-translate="dataUsageText">Topladığımız verileri aşağıdaki amaçlarla kullanırız:</p>
                         <ul>
@@ -616,7 +598,6 @@
                             <li data-translate="dataUsageItem4">Güvenlik ve dolandırıcılık önleme</li>
                             <li data-translate="dataUsageItem5">Yasal yükümlülükleri yerine getirmek</li>
                         </ul>
-                        
                         <h4 data-translate="dataSharing">4. Veri Paylaşımı</h4>
                         <p data-translate="dataSharingText">Kişisel verilerinizi üçüncü şahıslarla asla satmayız. Verilerinizi yalnızca aşağıdaki durumlarda paylaşırız:</p>
                         <ul>
@@ -624,10 +605,8 @@
                             <li data-translate="dataSharingItem2">Yasal bir zorunluluk olduğunda</li>
                             <li data-translate="dataSharingItem3">Uygulamamızın satın alınması veya birleşme durumunda</li>
                         </ul>
-                        
                         <h4 data-translate="dataSecurity">5. Veri Güvenliği</h4>
                         <p data-translate="dataSecurityText">Verilerinizin güvenliği bizim için önceliklidir. Verilerinizi yetkisiz erişime, değiştirmeye, ifşaya veya imhaya karşı korumak için endüstri standardı şifreleme yöntemleri ve güvenlik protokolleri kullanıyoruz. Tüm tarama verileri Eliptik Eğri Şifreleme (ECC-256 bit) ile şifrelenir.</p>
-                        
                         <h4 data-translate="userRights">6. Kullanıcı Hakları</h4>
                         <p data-translate="userRightsText">GDPR ve diğer ilgili veri koruma yasaları uyarınca, aşağıdaki haklara sahipsiniz:</p>
                         <ul>
@@ -638,32 +617,59 @@
                             <li data-translate="userRightsItem5">Veri taşınabilirliği hakkı</li>
                         </ul>
                         <p data-translate="userRightsContact">Bu haklarınızı kullanmak için bizimle <a href="#" id="contactPrivacy">iletişime geçebilirsiniz</a>.</p>
-                        
                         <h4 data-translate="cookies">7. Çerezler ve İzleme Teknolojileri</h4>
                         <p data-translate="cookiesText">Web sitemiz, kullanıcı tercihlerini hatırlamak ve deneyiminizi optimize etmek için çerezler ve benzeri izleme teknolojileri kullanır. Ziyaretçiler, çerez kullanımını tarayıcı ayarlarından kontrol edebilir.</p>
-                        
                         <h4 data-translate="policyChanges">8. Politika Değişiklikleri</h4>
                         <p data-translate="policyChangesText">Bu Gizlilik Politikasını zaman zaman güncelleyebiliriz. Değişiklikler yapıldığında, yeni politikayı web sitemizde yayınlayarak ve revize tarihini güncelleyerek bildireceğiz. Değişikliklerden haberdar olmanız için politikayı periyodik olarak gözden geçirmenizi öneririz.</p>
-                        
                         <h4 data-translate="contactUs">9. Bize Ulaşın</h4>
                         <p data-translate="contactUsText">Bu Gizlilik Politikası hakkında herhangi bir sorunuz veya endişeniz varsa, lütfen bizimle iletişime geçmekten çekinmeyin:</p>
                         <p data-translate="contactEmail">E-posta: privacy@cleanmasterprivacy.com</p>
-                        
                         <p class="mt-4"><strong data-translate="lastUpdated">Son Güncelleme:</strong> 13 Eylül 2025</p>
                     </div>
-                    
                     <div class="form-check mt-4">
-                        <input class="form-check-input" type="checkbox" id="privacyAgreement">
+                        <input class="form-check-input" type="checkbox" id="privacyAgreement" aria-label="Gizlilik politikasını kabul et">
                         <label class="form-check-label" for="privacyAgreement" data-translate="privacyAgreementText">
                             Clean Master Privacy Gizlilik Politikasını okudum ve kabul ediyorum
                         </label>
                     </div>
-                    
                     <div class="text-center mt-4">
-                        <button class="btn btn-primary" id="agreePrivacyBtn" disabled data-translate="agreeAndContinue">
+                        <button class="btn btn-primary" id="agreePrivacyBtn" disabled data-translate="agreeAndContinue" aria-label="Gizlilik politikasını kabul et ve devam et">
                             Kabul Et ve Devam Et
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Page -->
+        <div class="page-section" id="feedback-page">
+            <div class="main-container">
+                <div class="app-header">
+                    <h1><i class="fas fa-comment-dots me-2" aria-hidden="true"></i> <span data-translate="feedback">Geri Bildirim</span></h1>
+                    <p class="lead" data-translate="feedbackDesc">Önerilerinizle uygulamamızı geliştirmemize yardımcı olun</p>
+                </div>
+                <div class="p-4">
+                    <form id="feedbackForm" novalidate>
+                        <input type="hidden" name="_csrf" value="generate-csrf-token">
+                        <div class="mb-3">
+                            <label for="feedbackName" class="form-label" data-translate="name">Ad</label>
+                            <input type="text" class="form-control" id="feedbackName" required aria-describedby="nameFeedback">
+                            <div id="nameFeedback" class="invalid-feedback" data-translate="nameRequired">Ad gerekli</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackEmail" class="form-label" data-translate="email">E-posta</label>
+                            <input type="email" class="form-control" id="feedbackEmail" required aria-describedby="emailFeedback">
+                            <div id="emailFeedback" class="invalid-feedback" data-translate="emailInvalid">Geçerli bir e-posta adresi girin</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackMessage" class="form-label" data-translate="message">Mesaj</label>
+                            <textarea class="form-control" id="feedbackMessage" rows="5" required aria-describedby="messageFeedback"></textarea>
+                            <div id="messageFeedback" class="invalid-feedback" data-translate="messageRequired">Mesaj gerekli</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-translate="submitFeedback" aria-label="Geri bildirim gönder">
+                            Geri Bildirim Gönder
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -677,10 +683,10 @@
                     <p data-translate="cookieConsentText">Bu web sitesi, deneyiminizi iyileştirmek için çerezleri kullanır. Çerez politikamızla ilgili daha fazla bilgi edinin. Çerezleri kabul ederek, gizlilik politikamıza uygun şekilde verilerinizin işlenmesine izin verirsiniz.</p>
                 </div>
                 <div class="col-md-4 text-end">
-                    <button class="btn btn-outline-light btn-sm me-2" id="cookieSettingsBtn" data-translate="cookieSettings">
+                    <button class="btn btn-outline-light btn-sm me-2" id="cookieSettingsBtn" data-translate="cookieSettings" aria-label="Çerez ayarlarını düzenle">
                         Çerez Ayarları
                     </button>
-                    <button class="btn btn-primary btn-sm" id="acceptCookiesBtn" data-translate="acceptCookies">
+                    <button class="btn btn-primary btn-sm" id="acceptCookiesBtn" data-translate="acceptCookies" aria-label="Çerezleri kabul et">
                         Çerezleri Kabul Et
                     </button>
                 </div>
@@ -691,936 +697,16 @@
     <!-- Footer -->
     <footer class="footer text-center">
         <div class="container">
-            <p>&copy; 2023 Clean Master Privacy. <span data-translate="allRightsReserved">Tüm hakları saklıdır.</span></p>
+            <p>&copy; 2025 Clean Master Privacy. <span data-translate="allRightsReserved">Tüm hakları saklıdır.</span></p>
             <p data-translate="developer">Geliştirici: gamestime102</p>
             <div class="mt-2">
-                <span class="encryption-badge me-2"><i class="fas fa-certificate me-1"></i>SSL <span data-translate="secure">Güvenli</span></span>
-                <span class="encryption-badge me-2"><i class="fas fa-shield-alt me-1"></i>GDPR <span data-translate="compliant">Uyumlu</span></span>
-                <span class="encryption-badge"><i class="fas fa-check-circle me-1"></i>SOC2 <span data-translate="compliant">Uyumlu</span></span>
+                <span class="encryption-badge me-2"><i class="fas fa-certificate me-1" aria-hidden="true"></i>SSL <span data-translate="secure">Güvenli</span></span>
+                <span class="encryption-badge me-2"><i class="fas fa-shield-alt me-1" aria-hidden="true"></i>GDPR <span data-translate="compliant">Uyumlu</span></span>
+                <span class="encryption-badge"><i class="fas fa-check-circle me-1" aria-hidden="true"></i>SOC2 <span data-translate="compliant">Uyumlu</span></span>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Dil çevirileri
-        const translations = {
-            tr: {
-                "home": "Ana Sayfa",
-                "scan": "Tarama",
-                "history": "Geçmiş",
-                "settings": "Ayarlar",
-                "privacy": "Gizlilik",
-                "appDescription": "Gelişmiş Eliptik Eğri Şifrelemeli Web Tabanlı Antivirüs Çözümü",
-                "protonLogin": "Proton Mail Girişi",
-                "protonLoginDesc": "Clean Master Privacy hizmetini kullanmak için Proton Mail hesabınızla giriş yapın.",
-                "protonEmailPlaceholder": "Proton Mail adresiniz",
-                "passwordPlaceholder": "Şifreniz",
-                "login": "Giriş Yap",
-                "rememberMe": "Beni hatırla",
-                "fileScan": "Dosya Tarama",
-                "fileScanDesc": "Şüpheli dosyaları yükleyin ve anında tarama yapın.",
-                "dragDrop": "Dosyaları sürükleyip bırakın veya tıklayarak seçin",
-                "maxFileSize": "Maksimum dosya boyutu: 50MB",
-                "browseFiles": "Dosya Seç",
-                "selectedFiles": "Seçilen Dosyalar",
-                "noFilesSelected": "Henüz dosya seçilmedi",
-                "startScan": "Tarama Başlat",
-                "protectionStatus": "Koruma Durumu",
-                "active": "Aktif",
-                "lastScan": "Son Tarama:",
-                "never": "Henüz yok",
-                "totalScanned": "Taranan Dosya:",
-                "threatsDetected": "Tespit Edilen Tehdit:",
-                "scanResults": "Tarama Sonuçları",
-                "noScanResults": "Tarama yapılmadı",
-                "features": "Clean Master Privacy Özellikleri",
-                "featuresDesc": "Gelişmiş güvenlik çözümümüzün avantajları",
-                "feature1Title": "Eliptik Eğri Şifreleme",
-                "feature1Desc": "Tüm tarama verileriniz ECC-256 bit şifreleme ile korunur, maksimum gizlilik sağlanır.",
-                "feature2Title": "Hızlı Tarama",
-                "feature2Desc": "Gelişmiş algoritmalarımız sayesinde dosyalarınızı saniyeler içinde tarayın.",
-                "feature3Title": "Proton Drive Entegrasyonu",
-                "feature3Desc": "Tarama raporlarınız otomatik olarak şifrelenmiş şekilde Proton Drive'a yüklenir.",
-                "scanHistory": "Tarama Geçmişi",
-                "scanHistoryDesc": "Geçmiş tarama sonuçlarınızı görüntüleyin",
-                "recentScans": "Son Taramalar",
-                "clearHistory": "Geçmişi Temizle",
-                "noHistory": "Henüz tarama geçmişi bulunmamaktadır",
-                "settingsDesc": "Uygulama ayarlarınızı yönetin",
-                "generalSettings": "Genel Ayarlar",
-                "autoScan": "Otomatik Tarama",
-                "enableAutoScan": "Otomatik taramayı etkinleştir",
-                "scanSensitivity": "Tarama Hassasiyeti",
-                "sensitivityLow": "Düşük",
-                "sensitivityMedium": "Orta",
-                "sensitivityHigh": "Yüksek",
-                "resultRetention": "Sonuç Saklama Süresi",
-                "retention7": "7 Gün",
-                "retention30": "30 Gün",
-                "retention90": "90 Gün",
-                "retention365": "1 Yıl",
-                "privacySettings": "Gizlilik Ayarları",
-                "dataCollection": "Veri Toplama",
-                "allowDataCollection": "Anonim kullanım verileri toplamaya izin ver",
-                "dataCollectionDesc": "Bu veriler uygulamanın iyileştirilmesi için kullanılır ve kişisel bilgi içermez",
-                "autoUpload": "Otomatik Yükleme",
-                "enableAutoUpload": "Tarama sonuçlarını Proton Drive'a otomatik yükle",
-                "encryptionLevel": "Şifreleme Seviyesi",
-                "saveSettings": "Ayarları Kaydet",
-                "resetSettings": "Varsayılanlara Sıfırla",
-                "privacyPolicy": "Gizlilik Politikası",
-                "privacyPolicyDesc": "Veri gizliliği ve güvenliği taahhüdümüz",
-                "privacyIntroduction": "1. Giriş",
-                "privacyIntroductionText": "Clean Master Privacy (\"biz\", \"bizim\" veya \"uygulamamız\") olarak, kullanıcılarımızın gizliliğine büyük önem veriyoruz. Bu Gizlilik Politikası, kişisel verilerinizi nasıl topladığımız, kullandığımız, paylaştığımız ve koruduğumuzu açıklamaktadır. Bu politikayı okumanızı ve verilerinizle ilgili uygulamalarımızı anlamanızı önemle tavsiye ederiz.",
-                "dataCollectionText": "Clean Master Privacy, hizmetlerimizi sağlamak ve iyileştirmek için aşağıdaki verileri toplar:",
-                "dataCollectionItem1": "Tarama yapılan dosyalar (yalnızca şifrelenmiş biçimde ve asla kişisel kullanımınız dışında saklanmaz)",
-                "dataCollectionItem2": "Tarama sonuçları ve istatistikleri",
-                "dataCollectionItem3": "Proton Mail hesap bilgileriniz (yalnızca kimlik doğrulama için kullanılır, saklanmaz)",
-                "dataCollectionItem4": "Kullanım verileri (tarayıcı türü, IP adresi, erişim zamanları gibi anonim bilgiler)",
-                "dataUsage": "3. Veri Kullanımı",
-                "dataUsageText": "Topladığımız verileri aşağıdaki amaçlarla kullanırız:",
-                "dataUsageItem1": "Antivirüs tarama hizmeti sağlamak",
-                "dataUsageItem2": "Uygulamamızı iyileştirmek ve geliştirmek",
-                "dataUsageItem3": "Kullanıcı deneyimini kişiselleştirmek",
-                "dataUsageItem4": "Güvenlik ve dolandırıcılık önleme",
-                "dataUsageItem5": "Yasal yükümlülükleri yerine getirmek",
-                "dataSharing": "4. Veri Paylaşımı",
-                "dataSharingText": "Kişisel verilerinizi üçüncü şahıslarla asla satmayız. Verilerinizi yalnızca aşağıdaki durumlarda paylaşırız:",
-                "dataSharingItem1": "Proton Drive'a şifrelenmiş tarama raporlarını yüklemek için (kullanıcı onayı ile)",
-                "dataSharingItem2": "Yasal bir zorunluluk olduğunda",
-                "dataSharingItem3": "Uygulamamızın satın alınması veya birleşme durumunda",
-                "dataSecurity": "5. Veri Güvenliği",
-                "dataSecurityText": "Verilerinizin güvenliği bizim için önceliklidir. Verilerinizi yetkisiz erişime, değiştirmeye, ifşaya veya imhaya karşı korumak için endüstri standardı şifreleme yöntemleri ve güvenlik protokolleri kullanıyoruz. Tüm tarama verileri Eliptik Eğri Şifreleme (ECC-256 bit) ile şifrelenir.",
-                "userRights": "6. Kullanıcı Hakları",
-                "userRightsText": "GDPR ve diğer ilgili veri koruma yasaları uyarınca, aşağıdaki haklara sahipsiniz:",
-                "userRightsItem1": "Kişisel verilerinize erişim hakkı",
-                "userRightsItem2": "Verilerinizi düzeltme hakkı",
-                "userRightsItem3": "Verilerinizi silme hakkı (\"unutulma hakkı\")",
-                "userRightsItem4": "Veri işlemeye itiraz etme hakkı",
-                "userRightsItem5": "Veri taşınabilirliği hakkı",
-                "userRightsContact": "Bu haklarınızı kullanmak için bizimle <a href='#' id='contactPrivacy'>iletişime geçebilirsiniz</a>.",
-                "cookies": "7. Çerezler ve İzleme Teknolojileri",
-                "cookiesText": "Web sitemiz, kullanıcı tercihlerini hatırlamak ve deneyiminizi optimize etmek için çerezler ve benzeri izleme teknolojileri kullanır. Ziyaretçiler, çerez kullanımını tarayıcı ayarlarından kontrol edebilir.",
-                "policyChanges": "8. Politika Değişiklikleri",
-                "policyChangesText": "Bu Gizlilik Politikasını zaman zaman güncelleyebiliriz. Değişiklikler yapıldığında, yeni politikayı web sitemizde yayınlayarak ve revize tarihini güncelleyerek bildireceğiz. Değişikliklerden haberdar olmanız için politikayı periyodik olarak gözden geçirmenizi öneririz.",
-                "contactUs": "9. Bize Ulaşın",
-                "contactUsText": "Bu Gizlilik Politikası hakkında herhangi bir sorunuz veya endişeniz varsa, lütfen bizimle iletişime geçmekten çekinmeyin:",
-                "contactEmail": "E-posta: privacy@cleanmasterprivacy.com",
-                "lastUpdated": "Son Güncelleme:",
-                "privacyAgreementText": "Clean Master Privacy Gizlilik Politikasını okudum ve kabul ediyorum",
-                "agreeAndContinue": "Kabul Et ve Devam Et",
-                "cookieConsentText": "Bu web sitesi, deneyiminizi iyileştirmek için çerezleri kullanır. Çerez politikamızla ilgili daha fazla bilgi edinin. Çerezleri kabul ederek, gizlilik politikamıza uygun şekilde verilerinizin işlenmesine izin verirsiniz.",
-                "cookieSettings": "Çerez Ayarları",
-                "acceptCookies": "Çerezleri Kabul Et",
-                "allRightsReserved": "Tüm hakları saklıdır.",
-                "developer": "Geliştirici: gamestime102",
-                "secure": "Güvenli",
-                "compliant": "Uyumlu"
-            },
-            en: {
-                "home": "Home",
-                "scan": "Scan",
-                "history": "History",
-                "settings": "Settings",
-                "privacy": "Privacy",
-                "appDescription": "Advanced Elliptic Curve Encryption Web-Based Antivirus Solution",
-                "protonLogin": "Proton Mail Login",
-                "protonLoginDesc": "Sign in with your Proton Mail account to use Clean Master Privacy service.",
-                "protonEmailPlaceholder": "Your Proton Mail address",
-                "passwordPlaceholder": "Your password",
-                "login": "Sign In",
-                "rememberMe": "Remember me",
-                "fileScan": "File Scan",
-                "fileScanDesc": "Upload suspicious files and perform instant scanning.",
-                "dragDrop": "Drag and drop files or click to select",
-                "maxFileSize": "Maximum file size: 50MB",
-                "browseFiles": "Browse Files",
-                "selectedFiles": "Selected Files",
-                "noFilesSelected": "No files selected yet",
-                "startScan": "Start Scan",
-                "protectionStatus": "Protection Status",
-                "active": "Active",
-                "lastScan": "Last Scan:",
-                "never": "Never",
-                "totalScanned": "Total Scanned:",
-                "threatsDetected": "Threats Detected:",
-                "scanResults": "Scan Results",
-                "noScanResults": "No scan performed",
-                "features": "Clean Master Privacy Features",
-                "featuresDesc": "Advantages of our advanced security solution",
-                "feature1Title": "Elliptic Curve Encryption",
-                "feature1Desc": "All your scan data is protected with ECC-256 bit encryption, ensuring maximum privacy.",
-                "feature2Title": "Fast Scanning",
-                "feature2Desc": "Scan your files in seconds thanks to our advanced algorithms.",
-                "feature3Title": "Proton Drive Integration",
-                "feature3Desc": "Your scan reports are automatically uploaded to Proton Drive in encrypted form.",
-                "scanHistory": "Scan History",
-                "scanHistoryDesc": "View your past scan results",
-                "recentScans": "Recent Scans",
-                "clearHistory": "Clear History",
-                "noHistory": "No scan history available yet",
-                "settingsDesc": "Manage your application settings",
-                "generalSettings": "General Settings",
-                "autoScan": "Auto Scan",
-                "enableAutoScan": "Enable automatic scanning",
-                "scanSensitivity": "Scan Sensitivity",
-                "sensitivityLow": "Low",
-                "sensitivityMedium": "Medium",
-                "sensitivityHigh": "High",
-                "resultRetention": "Result Retention Period",
-                "retention7": "7 Days",
-                "retention30": "30 Days",
-                "retention90": "90 Days",
-                "retention365": "1 Year",
-                "privacySettings": "Privacy Settings",
-                "dataCollection": "Data Collection",
-                "allowDataCollection": "Allow collection of anonymous usage data",
-                "dataCollectionDesc": "This data is used to improve the application and does not contain personal information",
-                "autoUpload": "Auto Upload",
-                "enableAutoUpload": "Automatically upload scan results to Proton Drive",
-                "encryptionLevel": "Encryption Level",
-                "saveSettings": "Save Settings",
-                "resetSettings": "Reset to Defaults",
-                "privacyPolicy": "Privacy Policy",
-                "privacyPolicyDesc": "Our commitment to data privacy and security",
-                "privacyIntroduction": "1. Introduction",
-                "privacyIntroductionText": "At Clean Master Privacy (\"we\", \"our\" or \"our application\"), we take your privacy seriously. This Privacy Policy explains how we collect, use, share, and protect your personal data. We strongly recommend that you read this policy and understand our practices regarding your data.",
-                "dataCollectionText": "Clean Master Privacy collects the following data to provide and improve our services:",
-                "dataCollectionItem1": "Scanned files (in encrypted format only and never stored beyond your personal use)",
-                "dataCollectionItem2": "Scan results and statistics",
-                "dataCollectionItem3": "Your Proton Mail account information (used only for authentication, not stored)",
-                "dataCollectionItem4": "Usage data (anonymous information such as browser type, IP address, access times)",
-                "dataUsage": "3. Data Usage",
-                "dataUsageText": "We use the data we collect for the following purposes:",
-                "dataUsageItem1": "Providing antivirus scanning services",
-                "dataUsageItem2": "Improving and developing our application",
-                "dataUsageItem3": "Personalizing user experience",
-                "dataUsageItem4": "Security and fraud prevention",
-                "dataUsageItem5": "Fulfilling legal obligations",
-                "dataSharing": "4. Data Sharing",
-                "dataSharingText": "We never sell your personal data to third parties. We only share your data in the following circumstances:",
-                "dataSharingItem1": "To upload encrypted scan reports to Proton Drive (with user consent)",
-                "dataSharingItem2": "When required by law",
-                "dataSharingItem3": "In case of acquisition or merger of our application",
-                "dataSecurity": "5. Data Security",
-                "dataSecurityText": "The security of your data is our priority. We use industry-standard encryption methods and security protocols to protect your data from unauthorized access, alteration, disclosure, or destruction. All scan data is encrypted with Elliptic Curve Encryption (ECC-256 bit).",
-                "userRights": "6. User Rights",
-                "userRightsText": "Under GDPR and other relevant data protection laws, you have the following rights:",
-                "userRightsItem1": "Right to access your personal data",
-                "userRightsItem2": "Right to correct your data",
-                "userRightsItem3": "Right to delete your data (\"right to be forgotten\")",
-                "userRightsItem4": "Right to object to data processing",
-                "userRightsItem5": "Right to data portability",
-                "userRightsContact": "To exercise these rights, you can <a href='#' id='contactPrivacy'>contact us</a>.",
-                "cookies": "7. Cookies and Tracking Technologies",
-                "cookiesText": "Our website uses cookies and similar tracking technologies to remember user preferences and optimize your experience. Visitors can control cookie usage through browser settings.",
-                "policyChanges": "8. Policy Changes",
-                "policyChangesText": "We may update this Privacy Policy from time to time. When we make changes, we will post the new policy on our website and update the revision date. We encourage you to periodically review the policy to stay informed about any changes.",
-                "contactUs": "9. Contact Us",
-                "contactUsText": "If you have any questions or concerns about this Privacy Policy, please don't hesitate to contact us:",
-                "contactEmail": "Email: privacy@cleanmasterprivacy.com",
-                "lastUpdated": "Last Updated:",
-                "privacyAgreementText": "I have read and accept the Clean Master Privacy Policy",
-                "agreeAndContinue": "Agree and Continue",
-                "cookieConsentText": "This website uses cookies to improve your experience. Learn more about our cookie policy. By accepting cookies, you consent to the processing of your data in accordance with our privacy policy.",
-                "cookieSettings": "Cookie Settings",
-                "acceptCookies": "Accept Cookies",
-                "allRightsReserved": "All rights reserved.",
-                "developer": "Developer: gamestime102",
-                "secure": "Secure",
-                "compliant": "Compliant"
-            },
-            de: {
-                "home": "Startseite",
-                "scan": "Scan",
-                "history": "Verlauf",
-                "settings": "Einstellungen",
-                "privacy": "Datenschutz",
-                "appDescription": "Erweiterte Elliptic Curve Encryption Web-basierte Antiviren-Lösung",
-                "protonLogin": "Proton Mail Anmeldung",
-                "protonLoginDesc": "Melden Sie sich mit Ihrem Proton Mail-Konto an, um den Clean Master Privacy-Dienst zu nutzen.",
-                "protonEmailPlaceholder": "Ihre Proton Mail-Adresse",
-                "passwordPlaceholder": "Ihr Passwort",
-                "login": "Anmelden",
-                "rememberMe": "Angemeldet bleiben",
-                "fileScan": "Dateiscan",
-                "fileScanDesc": "Laden Sie verdächtige Dateien hoch und führen Sie sofortige Scans durch.",
-                "dragDrop": "Dateien ziehen und ablegen oder klicken, um auszuwählen",
-                "maxFileSize": "Maximale Dateigröße: 50MB",
-                "browseFiles": "Dateien durchsuchen",
-                "selectedFiles": "Ausgewählte Dateien",
-                "noFilesSelected": "Noch keine Dateien ausgewählt",
-                "startScan": "Scan starten",
-                "protectionStatus": "Schutzstatus",
-                "active": "Aktiv",
-                "lastScan": "Letzter Scan:",
-                "never": "Noch nie",
-                "totalScanned": "Gescannte Dateien:",
-                "threatsDetected": "Erkannte Bedrohungen:",
-                "scanResults": "Scansergebnisse",
-                "noScanResults": "Kein Scan durchgeführt",
-                "features": "Clean Master Privacy Funktionen",
-                "featuresDesc": "Vorteile unserer erweiterten Sicherheitslösung",
-                "feature1Title": "Elliptic Curve Encryption",
-                "feature1Desc": "Alle Ihre Scan-Daten sind mit ECC-256-Bit-Verschlüsselung geschützt, was maximale Privatsphäre gewährleistet.",
-                "feature2Title": "Schnelles Scannen",
-                "feature2Desc": "Scannen Sie Ihre Dateien in Sekundenschnelle dank unserer fortschrittlichen Algorithmen.",
-                "feature3Title": "Proton Drive Integration",
-                "feature3Desc": "Ihre Scan-Berichte werden automatisch verschlüsselt an Proton Drive hochgeladen.",
-                "scanHistory": "Scanverlauf",
-                "scanHistoryDesc": "Zeigen Sie Ihre vergangenen Scansergebnisse an",
-                "recentScans": "Kürzliche Scans",
-                "clearHistory": "Verlauf löschen",
-                "noHistory": "Noch kein Scanverlauf verfügbar",
-                "settingsDesc": "Verwalten Sie Ihre Anwendungseinstellungen",
-                "generalSettings": "Allgemeine Einstellungen",
-                "autoScan": "Auto-Scan",
-                "enableAutoScan": "Automatisches Scannen aktivieren",
-                "scanSensitivity": "Scan-Empfindlichkeit",
-                "sensitivityLow": "Niedrig",
-                "sensitivityMedium": "Mittel",
-                "sensitivityHigh": "Hoch",
-                "resultRetention": "Ergebnisaufbewahrungsdauer",
-                "retention7": "7 Tage",
-                "retention30": "30 Tage",
-                "retention90": "90 Tage",
-                "retention365": "1 Jahr",
-                "privacySettings": "Datenschutzeinstellungen",
-                "dataCollection": "Datensammlung",
-                "allowDataCollection": "Sammlung anonymer Nutzungsdaten erlauben",
-                "dataCollectionDesc": "Diese Daten werden zur Verbesserung der Anwendung verwendet und enthalten keine persönlichen Informationen",
-                "autoUpload": "Automatisches Hochladen",
-                "enableAutoUpload": "Scansergebnisse automatisch an Proton Drive hochladen",
-                "encryptionLevel": "Verschlüsselungsstufe",
-                "saveSettings": "Einstellungen speichern",
-                "resetSettings": "Auf Standard zurücksetzen",
-                "privacyPolicy": "Datenschutzrichtlinie",
-                "privacyPolicyDesc": "Unser Engagement für Datenschutz und Sicherheit",
-                "privacyIntroduction": "1. Einführung",
-                "privacyIntroductionText": "Bei Clean Master Privacy (\"wir\", \"uns\" oder \"unsere Anwendung\") nehmen wir Ihre Privatsphäre ernst. Diese Datenschutzrichtlinie erklärt, wie wir Ihre persönlichen Daten sammeln, verwenden, teilen und schützen. Wir empfehlen Ihnen dringend, diese Richtlinie zu lesen und unsere Praktiken in Bezug auf Ihre Daten zu verstehen.",
-                "dataCollectionText": "Clean Master Privacy sammelt die folgenden Daten, um unsere Dienste bereitzustellen und zu verbessern:",
-                "dataCollectionItem1": "Gescannte Dateien (nur in verschlüsselter Form und niemals über Ihre persönliche Nutzung hinaus gespeichert)",
-                "dataCollectionItem2": "Scansergebnisse und Statistiken",
-                "dataCollectionItem3": "Ihre Proton Mail-Kontoinformationen (nur zur Authentifizierung verwendet, nicht gespeichert)",
-                "dataCollectionItem4": "Nutzungsdaten (anonyme Informationen wie Browsertyp, IP-Adresse, Zugriffszeiten)",
-                "dataUsage": "3. Datennutzung",
-                "dataUsageText": "Wir verwenden die gesammelten Daten für folgende Zwecke:",
-                "dataUsageItem1": "Bereitstellung von Antiviren-Scan-Diensten",
-                "dataUsageItem2": "Verbesserung und Entwicklung unserer Anwendung",
-                "dataUsageItem3": "Personalisierung der Benutzererfahrung",
-                "dataUsageItem4": "Sicherheit und Betrugsprävention",
-                "dataUsageItem5": "Erfüllung gesetzlicher Verpflichtungen",
-                "dataSharing": "4. Datenaustausch",
-                "dataSharingText": "Wir verkaufen Ihre persönlichen Daten niemals an Dritte. Wir teilen Ihre Daten nur in folgenden Fällen:",
-                "dataSharingItem1": "Um verschlüsselte Scanberichte an Proton Drive hochzuladen (mit Benutzereinwilligung)",
-                "dataSharingItem2": "Wenn gesetzlich vorgeschrieben",
-                "dataSharingItem3": "Im Falle des Erwerbs oder der Fusion unserer Anwendung",
-                "dataSecurity": "5. Datensicherheit",
-                "dataSecurityText": "Die Sicherheit Ihrer Daten hat für uns Priorität. Wir verwenden branchenübliche Verschlüsselungsmethoden und Sicherheitsprotokolle, um Ihre Daten vor unbefugtem Zugriff, Veränderung, Offenlegung oder Zerstörung zu schützen. Alle Scan-Daten werden mit Elliptic Curve Encryption (ECC-256 Bit) verschlüsselt.",
-                "userRights": "6. Benutzerrechte",
-                "userRightsText": "Nach GDPR und anderen relevanten Datenschutzgesetzen haben Sie folgende Rechte:",
-                "userRightsItem1": "Recht auf Zugang zu Ihren persönlichen Daten",
-                "userRightsItem2": "Recht auf Berichtigung Ihrer Daten",
-                "userRightsItem3": "Recht auf Löschung Ihrer Daten (\"Recht auf Vergessenwerden\")",
-                "userRightsItem4": "Recht auf Widerspruch gegen die Datenverarbeitung",
-                "userRightsItem5": "Recht auf Datenübertragbarkeit",
-                "userRightsContact": "Um diese Rechte auszuüben, können Sie <a href='#' id='contactPrivacy'>kontaktieren Sie uns</a>.",
-                "cookies": "7. Cookies und Tracking-Technologien",
-                "cookiesText": "Unsere Website verwendet Cookies und ähnliche Tracking-Technologien, um Benutzereinstellungen zu speichern und Ihre Erfahrung zu optimieren. Besucher können die Cookie-Nutzung über Browsereinstellungen steuern.",
-                "policyChanges": "8. Richtlinienänderungen",
-                "policyChangesText": "Wir können diese Datenschutzrichtlinie von Zeit zu Zeit aktualisieren. Wenn wir Änderungen vornehmen, werden wir die neue Richtlinie auf unserer Website veröffentlichen und das Revisionsdatum aktualisieren. Wir empfehlen Ihnen, die Richtlinie regelmäßig zu überprüfen, um über Änderungen informiert zu bleiben.",
-                "contactUs": "9. Kontaktieren Sie uns",
-                "contactUsText": "Wenn Sie Fragen oder Bedenken zu dieser Datenschutzrichtlinie haben, zögern Sie bitte nicht, uns zu kontaktieren:",
-                "contactEmail": "E-Mail: privacy@cleanmasterprivacy.com",
-                "lastUpdated": "Zuletzt aktualisiert:",
-                "privacyAgreementText": "Ich habe die Clean Master Privacy-Datenschutzrichtlinie gelesen und akzeptiere sie",
-                "agreeAndContinue": "Zustimmen und fortfahren",
-                "cookieConsentText": "Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Erfahren Sie mehr über unsere Cookie-Richtlinie. Durch Akzeptieren von Cookies stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer Datenschutzrichtlinie zu.",
-                "cookieSettings": "Cookie-Einstellungen",
-                "acceptCookies": "Cookies akzeptieren",
-                "allRightsReserved": "Alle Rechte vorbehalten.",
-                "developer": "Entwickler: gamestime102",
-                "secure": "Sicher",
-                "compliant": "Konform"
-            }
-        };
-
-        // Uygulama durumu
-        const appState = {
-            currentLanguage: 'tr',
-            isLoggedIn: false,
-            scanHistory: [],
-            settings: {
-                autoScan: false,
-                sensitivity: 'medium',
-                retention: 30,
-                dataCollection: true,
-                autoUpload: true,
-                encryptionLevel: 'ecc-256'
-            },
-            acceptedPrivacy: false,
-            acceptedCookies: false
-        };
-
-        // Sayfa yüklendiğinde
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-            initializeEventListeners();
-            loadAppState();
-            showCookieConsent();
-        });
-
-        // Uygulamayı başlat
-        function initializeApp() {
-            // Tehdit grafiğini başlat
-            const threatCtx = document.getElementById('threatChart').getContext('2d');
-            const threatChart = new Chart(threatCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: [translations[appState.currentLanguage].sensitivityLow, translations[appState.currentLanguage].sensitivityHigh],
-                    datasets: [{
-                        data: [100, 0],
-                        backgroundColor: ['#00b894', '#ff7675'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-            
-            // Dil seçeneklerini ayarla
-            $('.language-option').on('click', function(e) {
-                e.preventDefault();
-                const lang = $(this).data('lang');
-                changeLanguage(lang);
-            });
-            
-            // Sayfa geçişlerini ayarla
-            $('a[data-page]').on('click', function(e) {
-                e.preventDefault();
-                const page = $(this).data('page');
-                showPage(page);
-            });
-            
-            // Tema değiştirici
-            $('#themeToggle').on('click', function() {
-                toggleTheme();
-            });
-            
-            // Gizlilik sözleşmesi onayı
-            $('#privacyAgreement').on('change', function() {
-                $('#agreePrivacyBtn').prop('disabled', !this.checked);
-            });
-            
-            // Gizlilik politikasını kabul et
-            $('#agreePrivacyBtn').on('click', function() {
-                appState.acceptedPrivacy = true;
-                saveAppState();
-                showNotification(translations[appState.currentLanguage].privacyAgreementText, 'success');
-                showPage('home');
-            });
-            
-            // Çerezleri kabul et
-            $('#acceptCookiesBtn').on('click', function() {
-                appState.acceptedCookies = true;
-                saveAppState();
-                $('#cookieConsent').fadeOut();
-                showNotification(translations[appState.currentLanguage].acceptCookies, 'success');
-            });
-        }
-
-        // Olay dinleyicilerini başlat
-        function initializeEventListeners() {
-            // Dosya yükleme işlemleri
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('fileInput');
-            const browseBtn = document.getElementById('browseBtn');
-            const fileList = document.getElementById('fileList');
-            const fileCount = document.getElementById('fileCount');
-            const scanBtn = document.getElementById('scanBtn');
-            const scanAnimation = document.getElementById('scanAnimation');
-            const scanProgress = document.getElementById('scanProgress');
-            const progressBar = scanProgress.querySelector('.progress-bar');
-            
-            let selectedFiles = [];
-            
-            browseBtn.addEventListener('click', () => {
-                fileInput.click();
-            });
-            
-            fileInput.addEventListener('change', handleFileSelect);
-            
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZone.classList.add('bg-light');
-            });
-            
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('bg-light');
-            });
-            
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('bg-light');
-                
-                if (e.dataTransfer.files.length) {
-                    fileInput.files = e.dataTransfer.files;
-                    handleFileSelect({ target: fileInput });
-                }
-            });
-            
-            // Tarama butonu
-            scanBtn.addEventListener('click', startScan);
-            
-            // Giriş butonu
-            document.getElementById('loginBtn').addEventListener('click', function() {
-                const email = document.getElementById('protonEmail').value;
-                const password = document.getElementById('protonPassword').value;
-                
-                if (!email || !password) {
-                    showNotification(translations[appState.currentLanguage].protonLoginDesc, 'warning');
-                    return;
-                }
-                
-                if (!email.endsWith('@protonmail.com') && !email.endsWith('@proton.me')) {
-                    showNotification(translations[appState.currentLanguage].protonEmailPlaceholder, 'warning');
-                    return;
-                }
-                
-                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>' + translations[appState.currentLanguage].login;
-                this.disabled = true;
-                
-                // Giriş işlemini simüle et
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + translations[appState.currentLanguage].login;
-                    this.classList.remove('btn-primary');
-                    this.classList.add('btn-success');
-                    
-                    // Tarama butonunu etkinleştir
-                    document.getElementById('scanBtn').disabled = selectedFiles.length === 0;
-                    
-                    // Başarı mesajı göster
-                    showNotification(translations[appState.currentLanguage].login + ' ' + translations[appState.currentLanguage].active, 'success');
-                    
-                    // Giriş durumunu kaydet
-                    appState.isLoggedIn = true;
-                    saveAppState();
-                }, 2000);
-            });
-            
-            // Ayarları kaydet
-            $('#saveSettingsBtn').on('click', function() {
-                appState.settings.autoScan = $('#autoScanSwitch').prop('checked');
-                appState.settings.sensitivity = $('#sensitivitySelect').val();
-                appState.settings.retention = $('#retentionSelect').val();
-                appState.settings.dataCollection = $('#dataCollectionSwitch').prop('checked');
-                appState.settings.autoUpload = $('#autoUploadSwitch').prop('checked');
-                appState.settings.encryptionLevel = $('#encryptionSelect').val();
-                
-                saveAppState();
-                showNotification(translations[appState.currentLanguage].saveSettings, 'success');
-            });
-            
-            // Ayarları sıfırla
-            $('#resetSettingsBtn').on('click', function() {
-                $('#autoScanSwitch').prop('checked', false);
-                $('#sensitivitySelect').val('medium');
-                $('#retentionSelect').val('30');
-                $('#dataCollectionSwitch').prop('checked', true);
-                $('#autoUploadSwitch').prop('checked', true);
-                $('#encryptionSelect').val('ecc-256');
-                
-                showNotification(translations[appState.currentLanguage].resetSettings, 'info');
-            });
-            
-            // Geçmişi temizle
-            $('#clearHistoryBtn').on('click', function() {
-                appState.scanHistory = [];
-                saveAppState();
-                updateHistoryList();
-                showNotification(translations[appState.currentLanguage].clearHistory, 'info');
-            });
-        }
-
-        // Dosya seçimini işle
-        function handleFileSelect(e) {
-            selectedFiles = Array.from(e.target.files);
-            updateFileList();
-            updateFileCount();
-            document.getElementById('scanBtn').disabled = selectedFiles.length === 0;
-        }
-
-        // Dosya listesini güncelle
-        function updateFileList() {
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = '';
-            
-            if (selectedFiles.length === 0) {
-                fileList.innerHTML = '<p class="text-center text-muted">' + translations[appState.currentLanguage].noFilesSelected + '</p>';
-                return;
-            }
-            
-            selectedFiles.forEach((file, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'd-flex justify-content-between align-items-center p-2 border-bottom';
-                
-                const fileInfo = document.createElement('div');
-                fileInfo.innerHTML = `
-                    <div><strong>${file.name}</strong></div>
-                    <small class="text-muted">${formatFileSize(file.size)}</small>
-                `;
-                
-                const removeBtn = document.createElement('button');
-                removeBtn.className = 'btn btn-sm btn-outline-danger';
-                removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-                removeBtn.addEventListener('click', () => {
-                    selectedFiles.splice(index, 1);
-                    updateFileList();
-                    updateFileCount();
-                    document.getElementById('scanBtn').disabled = selectedFiles.length === 0;
-                });
-                
-                fileItem.appendChild(fileInfo);
-                fileItem.appendChild(removeBtn);
-                fileList.appendChild(fileItem);
-            });
-        }
-
-        // Dosya sayısını güncelle
-        function updateFileCount() {
-            document.getElementById('fileCount').textContent = selectedFiles.length + ' ' + translations[appState.currentLanguage].selectedFiles.toLowerCase();
-        }
-
-        // Dosya boyutunu biçimlendir
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        // Tarama başlat
-        function startScan() {
-            if (selectedFiles.length === 0) return;
-            
-            // Tarama UI göster
-            document.getElementById('scanAnimation').classList.remove('d-none');
-            document.getElementById('scanProgress').classList.remove('d-none');
-            document.getElementById('scanBtn').disabled = true;
-            
-            // Tarama ilerlemesini simüle et
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 5;
-                document.querySelector('.progress-bar').style.width = `${progress}%`;
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    finishScan();
-                }
-            }, 100);
-        }
-
-        // Tarama bitirme
-        function finishScan() {
-            // Tarama UI gizle
-            document.getElementById('scanAnimation').classList.add('d-none');
-            
-            // Sonuçları göster
-            const resultsDiv = document.getElementById('scanResults');
-            const randomClean = Math.random() > 0.2; // %80 temiz şans
-            
-            if (randomClean) {
-                resultsDiv.innerHTML = `
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle me-2"></i>
-                        <strong>${translations[appState.currentLanguage].scanResults} ${translations[appState.currentLanguage].active.toLowerCase()}!</strong> ${selectedFiles.length} ${translations[appState.currentLanguage].totalScanned.toLowerCase()} ${translations[appState.currentLanguage].threatsDetected.toLowerCase()} 0.
-                    </div>
-                `;
-                
-                // İstatistikleri güncelle
-                const threatChart = Chart.getChart('threatChart');
-                threatChart.data.datasets[0].data = [100, 0];
-                threatChart.update();
-            } else {
-                const threatCount = Math.floor(Math.random() * 3) + 1;
-                resultsDiv.innerHTML = `
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        <strong>${threatCount} ${translations[appState.currentLanguage].threatsDetected.toLowerCase()}!</strong> ${translations[appState.currentLanguage].fileScanDesc}
-                    </div>
-                    <div class="mt-3">
-                        <h6>${translations[appState.currentLanguage].threatsDetected}:</h6>
-                        <ul>
-                            <li>Trojan:Win32/Zpevdo.B (${selectedFiles[0].name})</li>
-                            ${threatCount > 1 ? '<li>HEUR:Backdoor.Java.Agent.gen (script.js)</li>' : ''}
-                            ${threatCount > 2 ? '<li>Adware:Win32/FusionCore (installer.exe)</li>' : ''}
-                        </ul>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-danger"><i class="fas fa-trash me-2"></i>${translations[appState.currentLanguage].clearHistory}</button>
-                    </div>
-                `;
-                
-                // İstatistikleri güncelle
-                const threatChart = Chart.getChart('threatChart');
-                const cleanPercent = 100 - (threatCount * 5);
-                threatChart.data.datasets[0].data = [cleanPercent, threatCount * 5];
-                threatChart.update();
-                
-                document.getElementById('threatsDetected').textContent = threatCount;
-            }
-            
-            // Diğer istatistikleri güncelle
-            const totalScanned = parseInt(document.getElementById('totalScanned').textContent || 0);
-            document.getElementById('totalScanned').textContent = totalScanned + selectedFiles.length;
-            
-            const now = new Date();
-            document.getElementById('lastScan').textContent = now.toLocaleTimeString() + ' ' + now.toLocaleDateString();
-            
-            // Geçmişe ekle
-            appState.scanHistory.unshift({
-                date: now.toISOString(),
-                fileCount: selectedFiles.length,
-                threats: randomClean ? 0 : threatCount,
-                files: selectedFiles.map(f => f.name)
-            });
-            
-            // En fazla 50 geçmiş öğesi tut
-            if (appState.scanHistory.length > 50) {
-                appState.scanHistory.pop();
-            }
-            
-            // Geçmiş listesini güncelle
-            updateHistoryList();
-            
-            // Şifreleme ve Proton Drive yüklemesini simüle et
-            simulateEncryptionAndUpload();
-            
-            // Durumu kaydet
-            saveAppState();
-            
-            // Sonraki tarama için sıfırla
-            setTimeout(() => {
-                document.getElementById('scanProgress').classList.add('d-none');
-                document.querySelector('.progress-bar').style.width = '0%';
-                document.getElementById('scanBtn').disabled = false;
-            }, 2000);
-        }
-
-        // Geçmiş listesini güncelle
-        function updateHistoryList() {
-            const historyList = document.getElementById('historyList');
-            
-            if (appState.scanHistory.length === 0) {
-                historyList.innerHTML = '<p class="text-center text-muted">' + translations[appState.currentLanguage].noHistory + '</p>';
-                return;
-            }
-            
-            historyList.innerHTML = '';
-            
-            appState.scanHistory.forEach(scan => {
-                const scanDate = new Date(scan.date);
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                
-                historyItem.innerHTML = `
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>${scanDate.toLocaleDateString()} ${scanDate.toLocaleTimeString()}</h5>
-                        <span class="badge ${scan.threats > 0 ? 'bg-danger' : 'bg-success'}">${scan.fileCount} ${translations[appState.currentLanguage].selectedFiles.toLowerCase()}, ${scan.threats} ${translations[appState.currentLanguage].threatsDetected.toLowerCase()}</span>
-                    </div>
-                    <p class="mb-1">${scan.files.slice(0, 3).join(', ')}${scan.files.length > 3 ? '...' : ''}</p>
-                    <small class="text-muted">${scanDate.toLocaleDateString()}</small>
-                `;
-                
-                historyList.appendChild(historyItem);
-            });
-        }
-
-        // Şifreleme ve yüklemeyi simüle et
-        function simulateEncryptionAndUpload() {
-            // ECC şifrelemesini simüle et
-            const ec = new elliptic.ec('secp256k1');
-            const keyPair = ec.genKeyPair();
-            const publicKey = keyPair.getPublic('hex');
-            
-            console.log('Veriler ECC ile şifrelendi (Örnek public key):', publicKey.substring(0, 30) + '...');
-            
-            // Proton Drive yüklemeyi simüle et
-            setTimeout(() => {
-                console.log('Tarama raporu Proton Drive\'a yüklendi');
-                
-                // Başarı bildirimi göster
-                showNotification(translations[appState.currentLanguage].feature3Desc, 'info');
-            }, 1500);
-        }
-
-        // Bildirim göster
-        function showNotification(message, type = 'info') {
-            const notification = $('.notification');
-            notification.removeClass('alert-success alert-danger alert-warning alert-info');
-            
-            switch (type) {
-                case 'success':
-                    notification.addClass('alert-success');
-                    break;
-                case 'danger':
-                    notification.addClass('alert-danger');
-                    break;
-                case 'warning':
-                    notification.addClass('alert-warning');
-                    break;
-                default:
-                    notification.addClass('alert-info');
-            }
-            
-            $('#notificationText').text(message);
-            notification.fadeIn();
-            
-            // 5 saniye sonra otomatik gizle
-            setTimeout(() => {
-                notification.fadeOut();
-            }, 5000);
-        }
-
-        // Dil değiştir
-        function changeLanguage(lang) {
-            appState.currentLanguage = lang;
-            $('#currentLanguage').text(lang === 'tr' ? 'Türkçe' : lang === 'en' ? 'English' : 'Deutsch');
-            
-            // Tüm çevirileri güncelle
-            $('[data-translate]').each(function() {
-                const key = $(this).data('translate');
-                if (translations[lang][key]) {
-                    $(this).text(translations[lang][key]);
-                }
-            });
-            
-            // Yer tutucu metinleri güncelle
-            $('[data-translate-placeholder]').each(function() {
-                const key = $(this).data('translate-placeholder');
-                if (translations[lang][key]) {
-                    $(this).attr('placeholder', translations[lang][key]);
-                }
-            });
-            
-            // Grafik etiketlerini güncelle
-            const threatChart = Chart.getChart('threatChart');
-            if (threatChart) {
-                threatChart.data.labels = [
-                    translations[lang].sensitivityLow,
-                    translations[lang].sensitivityHigh
-                ];
-                threatChart.update();
-            }
-            
-            // Durumu kaydet
-            saveAppState();
-            
-            // Bildirim göster
-            showNotification(translations[lang].login + ' ' + translations[lang].active, 'success');
-        }
-
-        // Sayfa göster
-        function showPage(page) {
-            // Tüm sayfaları gizle
-            $('.page-section').removeClass('active');
-            
-            // İlgili sayfayı göster
-            $(`#${page}-page`).addClass('active');
-            
-            // Navigasyon linklerini güncelle
-            $('.nav-link').removeClass('active');
-            $(`a[data-page="${page}"]`).addClass('active');
-            
-            // Sayfa başlığını güncelle
-            document.title = `${$(`a[data-page="${page}"]`).text().trim()} - Clean Master Privacy`;
-        }
-
-        // Tema değiştir
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            const btnIcon = $('#themeToggle i');
-            
-            if (currentTheme === 'dark') {
-                body.removeAttribute('data-theme');
-                btnIcon.removeClass('fa-sun').addClass('fa-moon');
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                btnIcon.removeClass('fa-moon').addClass('fa-sun');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Çerez onayı göster
-        function showCookieConsent() {
-            if (!appState.acceptedCookies) {
-                setTimeout(() => {
-                    $('#cookieConsent').fadeIn();
-                }, 2000);
-            }
-        }
-
-        // Uygulama durumunu yükle
-        function loadAppState() {
-            const savedState = localStorage.getItem('cleanMasterState');
-            if (savedState) {
-                const parsedState = JSON.parse(savedState);
-                Object.assign(appState, parsedState);
-            }
-            
-            // Tema yükle
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                $('#themeToggle i').removeClass('fa-moon').addClass('fa-sun');
-            }
-            
-            // Dil yükle
-            changeLanguage(appState.currentLanguage);
-            
-            // Ayarları yükle
-            if (appState.settings) {
-                $('#autoScanSwitch').prop('checked', appState.settings.autoScan);
-                $('#sensitivitySelect').val(appState.settings.sensitivity);
-                $('#retentionSelect').val(appState.settings.retention);
-                $('#dataCollectionSwitch').prop('checked', appState.settings.dataCollection);
-                $('#autoUploadSwitch').prop('checked', appState.settings.autoUpload);
-                $('#encryptionSelect').val(appState.settings.encryptionLevel);
-            }
-            
-            // Geçmişi yükle
-            updateHistoryList();
-            
-            // Giriş durumunu yükle
-            if (appState.isLoggedIn) {
-                $('#loginBtn').html('<i class="fas fa-check-circle me-2"></i>' + translations[appState.currentLanguage].login);
-                $('#loginBtn').removeClass('btn-primary').addClass('btn-success');
-                $('#scanBtn').disabled = selectedFiles.length === 0;
-            }
-            
-            // Gizlilik sözleşmesi durumunu yükle
-            if (appState.acceptedPrivacy) {
-                $('#privacyAgreement').prop('checked', true);
-                $('#agreePrivacyBtn').prop('disabled', false);
-            }
-        }
-
-        // Uygulama durumunu kaydet
-        function saveAppState() {
-            localStorage.setItem('cleanMasterState', JSON.stringify(appState));
-        }
-    </script>
+    <script type="module" src="app.js"></script>
 </body>
-</html>
+    </html>
