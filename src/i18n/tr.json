@@ -1,0 +1,16 @@
+{
+  "title":"Clean Master Privacy",
+  "loginTitle":"🔐 Proton Mail ile Giriş Yap",
+  "loginDesc":"Uygulamayı kullanmak için Proton Mail hesabınızla kimlik doğrulaması yapmalısınız.",
+  "loginBtn":"Proton Mail ile Giriş",
+  "appTitle":"📂 Dosya Yükle & Tarama",
+  "scanBtn":"🛡️ Dosyayı Tara & Yükle",
+  "history":"Geçmiş İşlemler",
+  "statusClean":"Temiz",
+  "statusInfected":"Zararlı",
+  "statusError":"Hata",
+  "progressScanning":"Tarama yapılıyor…",
+  "progressEncrypting":"Şifreleniyor…",
+  "progressUploading":"Proton Drive’a yükleniyor…",
+  "done":"Tamamlandı"
+}
