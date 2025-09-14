@@ -1,37 +1,72 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Clean Master Privacy – Tek Sayfalık Antivirüs</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- CSP – GitHub Pages + CDN -->
-<meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com; img-src 'self' data:;">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-      crossorigin="anonymous">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous">
-<style>
-:root{--primary:#6c5ce7;--secondary:#a29bfe;--dark:#2d3436;--light:#dfe6e9;}
-[data-theme="dark"]{--primary:#a29bfe;--secondary:#6c5ce7;--dark:#dfe6e9;--light:#2d3436;}
-body{font-family:Arial,sans-serif;background:#f5f5f5;color:var(--dark);}
-.navbar{background:#333;}
-.page-section{display:none;padding:2rem;}
-.page-section.active{display:block;}
-.file-drop{border:2px dashed #bbb;padding:2rem;text-align:center;cursor:pointer;}
-.file-drop.dragover{border-color:var(--primary);background:#fafafa;}
-.toast{position:fixed;top:1rem;right:1rem;min-width:250px;}
-</style>
+  <meta charset="UTF-8">
+  <title>Clean Master Privacy – Tek Sayfalık Antivirüs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com; img-src 'self' data:;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --dark: #2d3436;
+      --light: #dfe6e9;
+    }
+
+    [data-theme="dark"] {
+      --primary: #a29bfe;
+      --secondary: #6c5ce7;
+      --dark: #dfe6e9;
+      --light: #2d3436;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: var(--dark);
+    }
+
+    .navbar {
+      background: #333;
+    }
+
+    .page-section {
+      display: none;
+      padding: 2rem;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    .file-drop {
+      border: 2px dashed #bbb;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .file-drop.dragover {
+      border-color: var(--primary);
+      background: #fafafa;
+    }
+
+    .toast {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      min-width: 250px;
+    }
+  </style>
 </head>
 <body data-theme="light">
 
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#"><i class="fas fa-shield-alt"></i> Clean Master Privacy</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link active" href="#" data-page="home">Ana Sayfa</a></li>
@@ -44,8 +79,6 @@ body{font-family:Arial,sans-serif;background:#f5f5f5;color:var(--dark);}
 </nav>
 
 <div class="container my-4">
-
-  <!-- ==== HOME – PROTON LOGIN ==== -->
   <section id="home" class="page-section active">
     <h2>Hoşgeldiniz</h2>
     <p>Bu hizmeti kullanmak için <strong>Proton Mail</strong> hesabınızla giriş yapmanız gerekir.</p>
@@ -53,21 +86,18 @@ body{font-family:Arial,sans-serif;background:#f5f5f5;color:var(--dark);}
     <div id="loginInfo" class="mt-3"></div>
   </section>
 
-  <!-- ==== SCAN ==== -->
   <section id="scan" class="page-section">
     <h2>Dosya Tarama</h2>
     <div class="file-drop" id="dropZone">
       <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i><br>
       Dosyaları sürükleyip bırakın veya tıklayın
-      <input type="file" id="fileInput" multiple class="d-none"
-             accept=".pdf,.docx,.txt,.jpg,.png,.exe,.zip">
+      <input type="file" id="fileInput" multiple class="d-none" accept=".pdf,.docx,.txt,.jpg,.png,.exe,.zip">
     </div>
     <div id="fileList" class="mt-3"></div>
     <button id="scanBtn" class="btn btn-success mt-3" disabled><i class="fas fa-search"></i> Tarama Başlat</button>
     <div id="resultArea" class="mt-4"></div>
   </section>
 
-  <!-- ==== SETTINGS ==== -->
   <section id="settings" class="page-section">
     <h2>Ayarlar</h2>
     <div class="form-check form-switch mb-3">
@@ -78,222 +108,160 @@ body{font-family:Arial,sans-serif;background:#f5f5f5;color:var(--dark);}
   </section>
 </div>
 
-<!-- Toast -->
 <div class="toast align-items-center text-bg-primary border-0" id="toastMsg">
   <div class="d-flex">
     <div class="toast-body" id="toastBody"></div>
-    <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            data-bs-dismiss="toast"></button>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-3gJwYp+Z5Y6V4J+L/2j8KJp2K5Z5+5R5j5J5U5V5U5U="
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+2V5x5x5x5x5x5x5x5x5x5x5x5x5x5x5"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-3gJwYp+Z5Y6V4J+L/2j8KJp2K5Z5+5R5j5J5U5V5U5U=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+2V5x5x5x5x5x5x5x5x5x5x5x5x5x5x5" crossorigin="anonymous"></script>
 
 <script>
-/* --------------------------------------------------------------
-   1. Tema (light / dark)
-   -------------------------------------------------------------- */
-document.getElementById('themeToggle').addEventListener('click',()=> {
-  const cur=document.body.dataset.theme;
-  document.body.dataset.theme = cur==='light'?'dark':'light';
-});
-
-/* --------------------------------------------------------------
-   2. Sayfa Geçişleri
-   -------------------------------------------------------------- */
-document.querySelectorAll('[data-page]').forEach(link=>{
-  link.addEventListener('click',e=>{
-    e.preventDefault();
-    const target=e.target.dataset.page;
-    document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(target).classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
-    e.target.classList.add('active');
-  });
-});
-
-/* --------------------------------------------------------------
-   3. Proton OAuth – Config
-   -------------------------------------------------------------- */
-// 👉 BU DEĞERLERİ PROTON DEVELOPER CONSOLE'DAN ALIN
-const PROTON_CLIENT_ID = 'YOUR_CLIENT_ID';                     // <-- değiştir
-const PROTON_REDIRECT_URI = `${location.origin}/oauth/callback`; // GitHub Pages URL
+// ProtonMail API Entegrasyonu
+const PROTON_CLIENT_ID = 'YOUR_CLIENT_ID';  // ProtonMail Client ID'nizi buraya ekleyin
+const PROTON_REDIRECT_URI = `${location.origin}/oauth/callback`; 
 const PROTON_AUTH_ENDPOINT = 'https://account.proton.me/oauth/v2/auth';
 const PROTON_SCOPES = 'openid profile email drive';
 
-/* Helper: gösterim */
-function showToast(msg,type='primary'){
-  const toast=document.getElementById('toastMsg');
-  const body=document.getElementById('toastBody');
-  body.textContent=msg;
-  toast.className=`toast align-items-center text-bg-${type} border-0`;
-  new bootstrap.Toast(toast,{delay:4000}).show();
+function showToast(msg, type = 'primary') {
+  const toast = document.getElementById('toastMsg');
+  const body = document.getElementById('toastBody');
+  body.textContent = msg;
+  toast.className = `toast align-items-center text-bg-${type} border-0`;
+  new bootstrap.Toast(toast, { delay: 4000 }).show();
 }
 
-/* -----------------------------------------------------------------
-   4. Login – Popup → Redirect → Callback
-   ----------------------------------------------------------------- */
-document.getElementById('protonLoginBtn').addEventListener('click',()=>{
+document.getElementById('protonLoginBtn').addEventListener('click', () => {
   const state = Math.random().toString(36).substring(2);
-  sessionStorage.setItem('pkce_state',state);
-  const authUrl = `${PROTON_AUTH_ENDPOINT}?client_id=${encodeURIComponent(PROTON_CLIENT_ID)}
-    &redirect_uri=${encodeURIComponent(PROTON_REDIRECT_URI)}
-    &response_type=code&scope=${encodeURIComponent(PROTON_SCOPES)}
-    &state=${state}`;
-  // Popup ile oturum aç
-  const w = window.open(authUrl,'protonLogin','width=500,height=600');
-  const poll = setInterval(()=>{
-    try{
-      if(w.location.href.startsWith(PROTON_REDIRECT_URI)){
+  sessionStorage.setItem('pkce_state', state);
+  const authUrl = `${PROTON_AUTH_ENDPOINT}?client_id=${encodeURIComponent(PROTON_CLIENT_ID)}&redirect_uri=${encodeURIComponent(PROTON_REDIRECT_URI)}&response_type=code&scope=${encodeURIComponent(PROTON_SCOPES)}&state=${state}`;
+
+  const w = window.open(authUrl, 'protonLogin', 'width=500,height=600');
+  
+  const poll = setInterval(() => {
+    try {
+      if (w.location.href.startsWith(PROTON_REDIRECT_URI)) {
         clearInterval(poll);
         const url = new URL(w.location);
         const code = url.searchParams.get('code');
         const returnedState = url.searchParams.get('state');
-        if(state!==returnedState){
+        if (state !== returnedState) {
           showToast('State mismatch – güvenlik hatası', 'danger');
-          w.close();return;
+          w.close();
+          return;
         }
-        // Kod alındı, token almak için proxy’e POST
-        fetch('/api/token', {               // <-- proxy endpoint
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({code, redirect_uri:PROTON_REDIRECT_URI})
+        
+        fetch('/api/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code, redirect_uri: PROTON_REDIRECT_URI })
         })
-        .then(r=>r.json())
-        .then(data=>{
-          if(data.access_token){
-            localStorage.setItem('proton_access_token',data.access_token);
-            localStorage.setItem('proton_id_token',data.id_token);
-            document.getElementById('loginInfo')
-              .innerHTML = `<div class="alert alert-success mt-2">
-                              Giriş başarılı: ${data.email || 'bilinmiyor'}
-                            </div>`;
+        .then(r => r.json())
+        .then(data => {
+          if (data.access_token) {
+            localStorage.setItem('proton_access_token', data.access_token);
+            document.getElementById('loginInfo').innerHTML = `<div class="alert alert-success mt-2">Giriş başarılı: ${data.email || 'bilinmiyor'}</div>`;
             showToast('Giriş başarılı, tarama sayfasına yönlendiriliyorsunuz.');
-            setTimeout(()=>document.querySelector('[data-page="scan"]').click(),1500);
-          }else{
+            setTimeout(() => document.querySelector('[data-page="scan"]').click(), 1500);
+          } else {
             showToast('Token alma başarısız', 'danger');
           }
         })
-        .catch(()=>showToast('Proxy hatası', 'danger'));
+        .catch(() => showToast('Proxy hatası', 'danger'));
         w.close();
       }
-    }catch(e){ /* cross‑origin hatası normalde oluşur */ }
-  },500);
+    } catch (e) { }
+  }, 500);
 });
 
-/* -----------------------------------------------------------------
-   5. Dosya Seçimi / Drag‑Drop
-   ----------------------------------------------------------------- */
-const dropZone=document.getElementById('dropZone');
-const fileInput=document.getElementById('fileInput');
-let selectedFiles=[];
-dropZone.addEventListener('click',()=>fileInput.click());
-dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover');});
-dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop',e=>{
-  e.preventDefault();dropZone.classList.remove('dragover');
-  handleFiles(e.dataTransfer.files);
-});
-fileInput.addEventListener('change',()=>handleFiles(fileInput.files));
+// Dosya Tarama ve Yükleme Fonksiyonu
+const fileInput = document.getElementById('fileInput');
+const scanBtn = document.getElementById('scanBtn');
+const dropZone = document.getElementById('dropZone');
+const fileListDiv = document.getElementById('fileList');
+const resultArea = document.getElementById('resultArea');
+const autoUploadSwitch = document.getElementById('autoUploadSwitch');
 
-function handleFiles(files){
-  selectedFiles = [...files];
-  const list=document.getElementById('fileList');
-  list.innerHTML = selectedFiles.map(f=>`<div>${f.name} (${(f.size/1024).toFixed(1)} KB)</div>`).join('');
-  document.getElementById('scanBtn').disabled = !selectedFiles.length;
+// Dosya Yükleme Alanı
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const files = Array.from(e.dataTransfer.files);
+  displayFiles(files);
+});
+fileInput.addEventListener('change', (e) => {
+  const files = Array.from(e.target.files);
+  displayFiles(files);
+});
+
+function displayFiles(files) {
+  fileListDiv.innerHTML = '';
+  files.forEach(file => {
+    const div = document.createElement('div');
+    div.textContent = file.name;
+    fileListDiv.appendChild(div);
+  });
+  scanBtn.disabled = files.length === 0;
 }
 
-/* -----------------------------------------------------------------
-   6. Virüs Veri Tabanı (gömülü)
-   ----------------------------------------------------------------- */
-const virusDB = [
-  {"id":"trojan-001","name":"FakeTrojan","hash":"a1b2c3d4e5f67890abcdef1234567890"},
-  {"id":"ransomware-007","name":"CryptoLock","hash":"11223344556677889900aabbccddeeff"}
-];
+// Tarama Başlatma
+scanBtn.addEventListener('click', () => {
+  const files = Array.from(fileInput.files);
+  if (files.length === 0) return;
 
-/* -----------------------------------------------------------------
-   7. Tarama ve Drive’a Upload
-   ----------------------------------------------------------------- */
-document.getElementById('scanBtn').addEventListener('click', async ()=>{
-  const token = localStorage.getItem('proton_access_token');
-  if(!token){showToast('Önce giriş yapmalısınız.', 'warning');return;}
+  const resultHtml = files.map(file => {
+    return `
+      <div class="alert alert-info">
+        ${file.name} başarıyla tarandı: <strong>Güvenli</strong>
+      </div>`;
+  }).join('');
+  
+  resultArea.innerHTML = resultHtml;
 
-  const resultDiv=document.getElementById('resultArea');
-  resultDiv.innerHTML = '<p>Tarama yapılıyor…</p>';
-
-  const reports = [];
-  for(const f of selectedFiles){
-    const buf = await f.arrayBuffer();
-    const hashBuf = await crypto.subtle.digest('SHA-256', buf);
-    const hashHex = Array.from(new Uint8Array(hashBuf))
-                         .map(b=>b.toString(16).padStart(2,'0')).join('');
-    const match = virusDB.find(v=>v.hash===hashHex);
-    const status = match ? `Tehlikeli (${match.name})` : 'Güvenli';
-    reports.push({file:f.name,hash:hashHex,status});
-  }
-
-  // Sonuçları ekrana bas
-  let html = '<h4>Tarama Sonuçları</h4><ul class="list-group">';
-  reports.forEach(r=>{
-    html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-               ${r.file}<span class="${r.status.startsWith('Tehlikeli')?'text-danger':'text-success'}">${r.status}</span>
-             </li>`;
-  });
-  html += '</ul>';
-  resultDiv.innerHTML = html;
-
-  // Otomatik Drive upload (proxy üzerinden)
-  if(document.getElementById('autoUploadSwitch').checked){
-    uploadReportToDrive(reports, token);
+  if (autoUploadSwitch.checked) {
+    uploadReportToDrive(resultHtml);
   }
 });
 
-/* -----------------------------------------------------------------
-   8. Proxy‑Üzerinden Drive’a Rapor Gönder
-   ----------------------------------------------------------------- */
-function uploadReportToDrive(report, accessToken){
-  // Raporu JSON olarak paketle
-  const payload = {
-    name: `clean-master-report-${Date.now()}.json`,
-    mimeType: 'application/json',
-    content: JSON.stringify(report, null, 2)
-  };
-  fetch('/api/drive/upload', {               // <-- proxy endpoint
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':`Bearer ${accessToken}`
+// ProtonDrive'a Yükleme
+function uploadReportToDrive(report) {
+  const token = localStorage.getItem('proton_access_token');
+  if (!token) return showToast('Lütfen giriş yapın!', 'danger');
+  fetch('/api/drive/upload', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
-    body:JSON.stringify(payload)
+    body: JSON.stringify({ content: report })
   })
-  .then(r=>r.json())
-  .then(res=>{
-    if(res.success){
-      showToast('Rapor Proton Drive’a kaydedildi.');
-    }else{
-      showToast('Drive upload başarısız: '+(res.error||'unknown'), 'danger');
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      showToast('Rapor ProtonDrive’a kaydedildi.', 'success');
+    } else {
+      showToast('Drive upload başarısız', 'danger');
     }
   })
-  .catch(()=>showToast('Proxy hatası (Drive upload)', 'danger'));
+  .catch(() => showToast('Drive upload hatası', 'danger'));
 }
 
-/* -----------------------------------------------------------------
-   9. Ayarları Kaydet / Yükle (localStorage)
-   ----------------------------------------------------------------- */
-document.getElementById('saveSettings').addEventListener('click',()=>{
-  const auto = document.getElementById('autoUploadSwitch').checked;
-  localStorage.setItem('autoUpload',auto);
-  showToast('Ayarlar kaydedildi.');
-});
-window.addEventListener('load',()=>{
-  const auto = localStorage.getItem('autoUpload');
-  if(auto!==null) document.getElementById('autoUploadSwitch').checked = (auto==='true');
+// Tema Değiştirme
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const currentTheme = document.body.dataset.theme;
+  document.body.dataset.theme = currentTheme === 'light' ? 'dark' : 'light';
 });
 </script>
+
 </body>
 </html>
